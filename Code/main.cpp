@@ -1,5 +1,7 @@
-#include"Movie/Movie.hpp"
+#include "Movie/Movie.hpp"
+#include "UI/UI.hpp"
 
-
-// int main(){
-// }
+int main()
+{
+    login();
+}
