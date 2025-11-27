@@ -1,0 +1,143 @@
+#include "Admin.hpp"
+
+void Admin::AddMovie(Movie &movie)
+{
+    System::movies.push_back(movie);
+}
+void Admin::modifyMovieDesc(string movieTitle, string newDesc)
+{
+    for (auto &movie : System::movies)
+    {
+        if (movie.get_title() == movieTitle)
+        {
+            movie.set_desc(newDesc);
+            break;
+        }
+    }
+}
+void Admin::modifyMovieRating(string movieTitle, float newRating)
+{
+    for (auto &movie : System::movies)
+    {
+        if (movie.get_title() == movieTitle)
+        {
+            movie.set_rating(newRating);
+            break;
+        }
+    }
+}
+void Admin::modifyMovieGenre(string movieTitle, string newGenre)
+{
+    for (auto &movie : System::movies)
+    {
+        if (movie.get_title() == movieTitle)
+        {
+            movie.set_genre(newGenre);
+            break;
+        }
+    }
+}
+void Admin::deleteMovie(string movieTitle)
+{
+    for (auto it = System::movies.begin(); it != System::movies.end(); ++it)
+    {
+        if (it->get_title() == movieTitle)
+        {
+            System::movies.erase(it);
+            break;
+        }
+    }
+}
+void Admin::viewAllMovies()
+{
+    for (auto &movie : System::movies)
+    {
+        cout << "Title: " << movie.get_title() << endl;
+        cout << "Description: " << movie.get_desc() << endl;
+        cout << "Genre: " << movie.get_genre() << endl;
+        cout << "Rating: " << movie.get_rating() << endl;
+        cout << "------------------------" << endl;
+    }
+}
+void Admin::createShowTime(string movieTitle, string date, float time)
+{
+    for (auto &movie : System::movies)
+    {
+        if (movie.get_title() == movieTitle)
+        {
+            map<int, bool> seatMap;
+            for (int i = 0; i < 25; i++)
+            {
+                seatMap[i] = false;
+            }
+            Showtime newShowtime(date, time, seatMap);
+            // movie.showtimes.push_back(newShowtime);
+            break;
+        }
+    }
+}
+void Admin::modifyShowTimeDate(string movieTitle, string oldDate, string newDate, float time)
+{
+    // for (auto &movie : System::movies)
+    // {
+    //     if (movie.get_title() == movieTitle)
+    //     {
+    //         for(auto &showtime : movie.showtimes)
+    //         {
+    //             if (showtime.getDate() == oldDate && showtime.getTime() == time)
+    //             {
+    //                 showtime.setDate(newDate);
+    //                 break;
+    //             }
+    //         }
+    //     }
+    // }
+}
+void Admin::modifyShowTimeTime(string movieTitle, string date, float oldTime, float newTime)
+{
+    // for (auto &movie : System::movies)
+    // {
+    //     if (movie.get_title() == movieTitle)
+    //     {
+    //         for(auto &showtime : movie.showtimes)
+    //         {
+    //             if (showtime.getDate() == date && showtime.getTime() == oldTime)
+    //             {
+    //                 showtime.setTime(newTime);
+    //                 break;
+    //             }
+    //         }
+    //     }
+    // }
+}
+void Admin::deleteShowTime(string movieTitle, string date, float time)
+{
+    // for (auto &movie : System::movies)
+    // {
+    //     if (movie.get_title() == movieTitle)
+    //     {
+    //         for(auto it = movie.showtimes.begin(); it != movie.showtimes.end(); ++it)
+    //         {
+    //             if (it->getDate() == date && it->getTime() == time)
+    //             {
+    //                 movie.showtimes.erase(it);
+    //                 break;
+    //             }
+    //         }
+    //     }
+    // }
+}
+
+int main()
+{
+    Admin admin;
+    Admin admin2;
+    if (admin2.Authenticate("admin", "admin123"))
+    {
+        cout << "Admin authenticated successfully." << endl;
+    }
+    else
+    {
+        cout << "Authentication failed." << endl;
+    }
+}
