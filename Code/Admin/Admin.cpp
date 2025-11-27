@@ -78,54 +78,54 @@ void Admin::createShowTime(string movieTitle, string date, float time)
 }
 void Admin::modifyShowTimeDate(string movieTitle, string oldDate, string newDate, float time)
 {
-    // for (auto &movie : System::movies)
-    // {
-    //     if (movie.get_title() == movieTitle)
-    //     {
-    //         for(auto &showtime : movie.showtimes)
-    //         {
-    //             if (showtime.getDate() == oldDate && showtime.getTime() == time)
-    //             {
-    //                 showtime.setDate(newDate);
-    //                 break;
-    //             }
-    //         }
-    //     }
-    // }
+    for (auto &movie : System::movies)
+    {
+        if (movie.get_title() == movieTitle)
+        {
+            for(auto &showtime : movie.getShowTimes())
+            {
+                if (showtime.getDate() == oldDate && showtime.getTime() == time)
+                {
+                    showtime.setDate(newDate);
+                    break;
+                }
+            }
+        }
+    }
 }
 void Admin::modifyShowTimeTime(string movieTitle, string date, float oldTime, float newTime)
 {
-    // for (auto &movie : System::movies)
-    // {
-    //     if (movie.get_title() == movieTitle)
-    //     {
-    //         for(auto &showtime : movie.showtimes)
-    //         {
-    //             if (showtime.getDate() == date && showtime.getTime() == oldTime)
-    //             {
-    //                 showtime.setTime(newTime);
-    //                 break;
-    //             }
-    //         }
-    //     }
-    // }
+    for (auto &movie : System::movies)
+    {
+        if (movie.get_title() == movieTitle)
+        {
+            for(auto &showtime : movie.getShowTimes())
+            {
+                if (showtime.getDate() == date && showtime.getTime() == oldTime)
+                {
+                    showtime.setTime(newTime);
+                    break;
+                }
+            }
+        }
+    }
 }
 void Admin::deleteShowTime(string movieTitle, string date, float time)
 {
-    // for (auto &movie : System::movies)
-    // {
-    //     if (movie.get_title() == movieTitle)
-    //     {
-    //         for(auto it = movie.showtimes.begin(); it != movie.showtimes.end(); ++it)
-    //         {
-    //             if (it->getDate() == date && it->getTime() == time)
-    //             {
-    //                 movie.showtimes.erase(it);
-    //                 break;
-    //             }
-    //         }
-    //     }
-    // }
+    for (auto &movie : System::movies)
+    {
+        if (movie.get_title() == movieTitle)
+        {
+            for(auto it = movie.getShowTimes().begin(); it != movie.getShowTimes().end(); ++it)
+            {
+                if (it->getDate() == date && it->getTime() == time)
+                {
+                    movie.getShowTimes().erase(it);
+                    break;
+                }
+            }
+        }
+    }
 }
 
 int main()
@@ -140,4 +140,8 @@ int main()
     {
         cout << "Authentication failed." << endl;
     }
+    admin.viewAllMovies();
+    Movie m("ex.title","ex.desc","ex.genre",5,2.00);
+    admin.AddMovie(m);
+    admin.viewAllMovies();
 }

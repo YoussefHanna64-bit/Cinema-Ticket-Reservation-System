@@ -1,5 +1,6 @@
 #include <iostream>
 #include "../Person/Person.hpp"
+
 using namespace std;
 
 class Admin : public Person

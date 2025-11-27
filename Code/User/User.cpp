@@ -1,14 +1,14 @@
 #include "User.hpp"
 #include <vector>
 
-Movie &User::selectMovie(string date = "")
-{
-    Movie movie;
-    if (date.empty())
-    {
-    }
-    return movie;
-}
+// Movie &User::selectMovie(string date = "")
+// {
+//     Movie movie;
+//     if (date.empty())
+//     {
+//     }
+//     return movie;
+// }
 
 // Showtime &User::selectShowtime(Movie &movie)
 // {

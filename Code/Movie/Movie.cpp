@@ -30,3 +30,5 @@ float Movie::get_rating(){
     return this->rating;
 }
 
+vector<Showtime>& Movie::getShowTimes() {return this->showtimes;}
+

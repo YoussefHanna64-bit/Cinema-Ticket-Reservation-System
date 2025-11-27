@@ -1,5 +1,5 @@
 #include <iostream>
-#include <../System/System.hpp>
+#include "../System/System.hpp"
 using namespace std;
 
 class Person {
