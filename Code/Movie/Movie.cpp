@@ -1,6 +1,7 @@
-#include"Movie.hpp"
+#include "Movie.hpp"
 
-Movie::Movie(string title,string desc,string genre,float rating,float duration){
+Movie::Movie(string title, string desc, string genre, float rating, float duration)
+{
     this->title = title;
     this->desc = desc;
     this->genre = genre;
@@ -8,27 +9,44 @@ Movie::Movie(string title,string desc,string genre,float rating,float duration){
     this->duration = duration;
 }
 
-void Movie::set_desc(string desc){
+void Movie::set_desc(string desc)
+{
     this->desc = desc;
 }
-void Movie::set_genre(string genre){
+void Movie::set_genre(string genre)
+{
     this->genre = genre;
 }
-void Movie::set_rating(float rating){
+void Movie::set_rating(float rating)
+{
     this->rating = rating;
 }
-string Movie::get_title(){
+string Movie::get_title()
+{
     return this->title;
 }
-string Movie::get_desc(){
+string Movie::get_desc()
+{
     return this->desc;
 }
-string Movie::get_genre(){
+string Movie::get_genre()
+{
     return this->genre;
 }
-float Movie::get_rating(){
+float Movie::get_rating()
+{
     return this->rating;
 }
 
-vector<Showtime>& Movie::getShowTimes() {return this->showtimes;}
-
+bool Movie::isAvailableOn(string date)
+{
+    for (auto &showtime : showtimes)
+    {
+        if (showtime.getDate() == date)
+        {
+            return true;
+        }
+    }
+    return false;
+}
+vector<Showtime> &Movie::getShowTimes() { return this->showtimes; }

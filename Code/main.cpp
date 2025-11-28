@@ -3,9 +3,15 @@
 #include "AdminUI/AdminUI.hpp"
 #include "UserUI/UserUI.hpp"
 #include "ShowTime/ShowTime.hpp"
+#include "System/System.hpp"
+
+// Forward declaration
+void initializeMovies();
 
 int main()
-{   UI ui; 
+{
+    initializeMovies();
+    UI ui;
     ui.login();
     /*Showtime showtime("2020-01-01", 10.00, 100);
     showtime.reserveSeat(6);
@@ -16,7 +22,7 @@ int main()
     int x;
     cin >> x;
     return 0;*/
-    /* To run on vs code 
+    /* To run on vs code
     g++ code/main.cpp ^
     code/Movie/*.cpp ^
     code/ShowTime/*.cpp ^

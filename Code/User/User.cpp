@@ -1,18 +1,18 @@
 #include "User.hpp"
 #include <vector>
 
-Movie &User::selectMovie(string movieTitle)
-{
-    for (auto &movie : System::movies)
-    {
-        if (movie.get_title() == movieTitle)
-        {
-            return movie;
-        }
-    }
-}
+// Movie User::selectMovie(string movieTitle)
+// {
+//     for (auto &movie : System::movies)
+//     {
+//         if (movie.get_title() == movieTitle)
+//         {
+//             return movie;
+//         }
+//     }
+// }
 
-Showtime &User::selectShowtime(Movie &movie, float time)
+Showtime User::selectShowtime(Movie &movie, float time)
 {
     for (auto &showtime : movie.getShowTimes())
     {

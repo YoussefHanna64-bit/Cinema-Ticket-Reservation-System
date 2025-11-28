@@ -1,13 +1,15 @@
 #include "UserUI.hpp"
 #include "../Movie/Movie.hpp"
 #include "../System/System.hpp"
+#include "../User/User.hpp"
 #include <iostream>
 #include <array>
 #include <cstdlib>
 #include <conio.h>
-using namespace std;
 
-void UserUI:: printUserMenu()
+using namespace std;
+User user;
+void UserUI::printUserMenu()
 {
     array<string, 4> menuItems = {"Reserve Ticket", "Cancel Reservation", "View Reserved Tickets", "Exit"};
     int selected = 0;
@@ -89,13 +91,183 @@ void UserUI:: printUserMenu()
 ///////////////////// User Functions ///////////////
 void UserUI::reserveTicket()
 {
-    cout << "Reserve Ticket Function Called" << endl;
+    string currentDate = System::getTodayDate();
+    int selected = 0;
+    bool flag = true;
+    vector<Movie> availableMovies;
+
+    while (flag)
+    {
+        availableMovies = System::searchMoviebydate(currentDate);
+        system("cls");
+
+        cout << "\033[38m" << "Reserve Ticket - Movies on " << currentDate << "\033[0m" << endl;
+        cout << "-----------------------------------------------------------" << endl;
+        cout << "\033[33m" << "Press D to change date | Press ESC to go back" << "\033[0m" << endl;
+        cout << "-----------------------------------------------------------" << endl;
+
+        if (availableMovies.empty())
+        {
+            cout << "\033[31m" << "No movies available on this date." << "\033[0m" << endl;
+            cout << "Press D to select a different date or ESC to go back." << endl;
+        }
+        else
+        {
+            for (int i = 0; i < availableMovies.size(); i++)
+            {
+                if (i == selected)
+                {
+                    cout << "\033[32m" << "> " << availableMovies[i].get_title() << "\033[0m" << endl;
+                    cout << "  Description: " << availableMovies[i].get_desc() << endl;
+                    cout << "  Genre: " << availableMovies[i].get_genre() << endl;
+                    cout << "  Rating: " << availableMovies[i].get_rating() << endl;
+                    cout << endl;
+                }
+                else
+                {
+                    cout << "  " << availableMovies[i].get_title() << endl;
+                }
+            }
+        }
+
+        int key = _getch();
+
+        switch (key)
+        {
+        case 72:
+        {
+            if (!availableMovies.empty())
+            {
+                selected = (selected - 1 + availableMovies.size()) % availableMovies.size();
+            }
+            break;
+        }
+        case 80:
+        {
+            if (!availableMovies.empty())
+            {
+                selected = (selected + 1) % availableMovies.size();
+            }
+            break;
+        }
+        case 13:
+        {
+            if (!availableMovies.empty())
+            {
+                system("cls");
+                Movie selectedMovie = availableMovies[selected];
+                cout << "\033[32m" << "You have selected: " << selectedMovie.get_title() << "\033[0m" << endl;
+                cout << "Press any key to continue..." << endl;
+                _getch();
+                selectShowtime(selectedMovie, currentDate);
+                flag = false;
+            }
+            break;
+        }
+        case 'D':
+        case 'd':
+        {
+            system("cls");
+            cout << "\033[38m" << "Enter new date (DD/MM/YYYY): " << "\033[0m";
+            cin.ignore();
+            getline(cin, currentDate);
+            selected = 0;
+            break;
+        }
+        case 27:
+        {
+            flag = false;
+            break;
+        }
+        }
+    }
 }
-void UserUI:: cancelReservation()
+
+void UserUI::selectShowtime(Movie selectedMovie, string date)
+{
+    int selected = 0;
+    bool flag = true;
+    vector<Showtime> showtimes = selectedMovie.getShowTimes();
+    vector<Showtime> times;
+
+    for (auto &showtime : showtimes)
+    {
+        if (showtime.getDate() == date)
+        {
+            times.push_back(showtime);
+        }
+    }
+
+    while (flag)
+    {
+        system("cls");
+
+        cout << "\033[38m" << "Choose a Showtime for " << selectedMovie.get_title()
+             << " on " << date << "\033[0m" << endl;
+        cout << "-----------------------------------------------------------" << endl;
+        cout << "\033[33m" << "Press ESC to go back" << "\033[0m" << endl;
+        cout << "-----------------------------------------------------------" << endl;
+
+        if (times.empty())
+        {
+            cout << "\033[31m" << "No showtimes available for this movie on " << date << "." << "\033[0m" << endl;
+            cout << "Press any key to go back." << endl;
+            _getch();
+            return;
+        }
+
+        for (int i = 0; i < times.size(); i++)
+        {
+            if (i == selected)
+            {
+                cout << "\033[32m" << "> Time: " << times[i].getTime() << "\033[0m" << endl;
+            }
+            else
+            {
+                cout << "  Time: " << times[i].getTime() << endl;
+            }
+        }
+
+        int key = _getch();
+
+        switch (key)
+        {
+        case 72:
+        {
+            selected = (selected - 1 + times.size()) % times.size();
+            break;
+        }
+        case 80:
+        {
+            selected = (selected + 1) % times.size();
+            break;
+        }
+        case 13:
+        {
+            system("cls");
+            Showtime selectedShowtime = times[selected];
+            cout << "\033[32m" << "You have selected: " << date
+                 << " at " << selectedShowtime.getTime() << "\033[0m" << endl;
+            cout << "Press any key to continue..." << endl;
+            _getch();
+            selectedShowtime.displaySeats(10, 10);
+            flag = false;
+            break;
+        }
+        case 27:
+        {
+            flag = false;
+            break;
+        }
+        }
+    }
+}
+
+void UserUI::cancelReservation()
 {
     cout << "Cancel Reservation Function Called" << endl;
 }
-void UserUI:: viewReservedTickets()
+void UserUI::viewReservedTickets()
 {
     cout << "View Reserved Tickets Function Called" << endl;
 }

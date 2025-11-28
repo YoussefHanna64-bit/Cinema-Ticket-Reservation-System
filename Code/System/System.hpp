@@ -9,6 +9,10 @@ class System
 {
 public:
     static vector<Movie> movies;
+
+    static Movie searchMoviebytitle(string title);
+    static string getTodayDate();
+    static vector<Movie> searchMoviebydate(string date);
 };
 
 #endif

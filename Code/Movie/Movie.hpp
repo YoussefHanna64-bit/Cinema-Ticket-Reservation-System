@@ -25,6 +25,7 @@ public:
     string get_desc();
     string get_genre();
     float get_rating();
+    bool isAvailableOn(string date);
     vector<Showtime> &getShowTimes();
 };
 #endif

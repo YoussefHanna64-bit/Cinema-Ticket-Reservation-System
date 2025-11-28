@@ -1,7 +1,10 @@
-class UserUI {
+#include "../Movie/Movie.hpp"
+class UserUI
+{
 public:
-void printUserMenu();
-void reserveTicket();
-void cancelReservation();
-void viewReservedTickets();
+    void printUserMenu();
+    void reserveTicket();
+    void selectShowtime(Movie selectedMovie, string date);
+    void cancelReservation();
+    void viewReservedTickets();
 };

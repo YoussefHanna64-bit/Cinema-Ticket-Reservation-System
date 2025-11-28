@@ -1,6 +1,6 @@
 #include <iostream>
 #include <ctime>
-#include <System.hpp>
+#include "../System/System.hpp"
 #include "../Movie/Movie.hpp"
 #include "../Ticket/Ticket.hpp"
 #include "../Payment/MasterCard.hpp"
@@ -13,9 +13,9 @@ class User
     Payment *payment;
 
 public:
-    Movie &selectMovie(string date);
+    Movie selectMovie(string movieTitle);
 
-    Showtime &selectShowtime(Movie &movie, float time);
+    Showtime selectShowtime(Movie &movie, float time);
 
     vector<int> selectSeat(Showtime &showtime, int numberOfSeats);
 
