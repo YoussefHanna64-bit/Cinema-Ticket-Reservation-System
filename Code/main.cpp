@@ -4,7 +4,7 @@
 
 int main()
 {
-    //login();
+    login();
     /*Showtime showtime("2020-01-01", 10.00, 100);
     showtime.reserveSeat(6);
     showtime.reserveSeat(5);
@@ -14,4 +14,16 @@ int main()
     int x;
     cin >> x;
     return 0;*/
+    /* To run on vs code 
+    g++ code/main.cpp ^
+    code/Movie/*.cpp ^
+    code/ShowTime/*.cpp ^
+    code/User/*.cpp ^
+    code/Admin/*.cpp ^
+    code/Person/*.cpp ^
+    code/UI/*.cpp ^
+    code/Ticket/*.cpp ^
+    code/Payment/*.cpp ^
+    code/System/*.cpp ^
+    -o app.exe*/
 }
