@@ -1,7 +1,8 @@
 #include <iostream>
 using namespace std;
-class AdminUI{
-    public:
+class AdminUI
+{
+public:
     void printAdminMenu();
     void addMovie();
     void editMovie();
@@ -10,5 +11,4 @@ class AdminUI{
     void createShowtime();
     void editShowtime();
     void deleteShowtime();
-
 };
