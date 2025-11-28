@@ -65,12 +65,7 @@ void Admin::createShowTime(string movieTitle, string date, float time)
     {
         if (movie.get_title() == movieTitle)
         {
-            map<int, bool> seatMap;
-            for (int i = 0; i < 25; i++)
-            {
-                seatMap[i] = false;
-            }
-            Showtime newShowtime(date, time, seatMap);
+            Showtime newShowtime(date, time, 40);
             // movie.showtimes.push_back(newShowtime);
             break;
         }

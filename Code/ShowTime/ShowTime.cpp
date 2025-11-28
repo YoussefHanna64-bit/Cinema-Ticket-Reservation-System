@@ -1,9 +1,11 @@
 #include"ShowTime.hpp"
 
-Showtime::Showtime(string date, float time, map<int,bool> seats){
+Showtime::Showtime(string date, float time,int seats){
     this->date = date;
     this->time = time;
-    this->seats = seats;
+      for (int i = 1; i <= seats; i++) {
+        this->seats[i] = true;
+    }
 }
 string Showtime::getDate(){
     return this->date;
@@ -18,11 +20,21 @@ void Showtime::setDate(string date){
     this->date = date;
 }
 void Showtime::reserveSeat(int seat){
-    this->seats[seat] = true;
+    this->seats[seat] = false;
 }
-void Showtime::displaySeats(){
+void Showtime::displaySeats(int row, int col){
     map<int,bool>::iterator it;
+    int column = col;
     for(it = this->seats.begin(); it != this->seats.end(); it++){
-        cout << it->first << " " << it->second << endl;
+        if(column == 50+col){
+            row+=2;
+            column = col;
+        }
+        cout<< "\033[" << row << ";" << column << "H";
+        column+=5;
+        if(it->second == false)
+            cout << "\033[31m" << it->first << "\033[0m";
+        else
+            cout << "\033[32m" << it->first << "\033[0m";
     }
 }
