@@ -66,7 +66,7 @@ void Admin::createShowTime(string movieTitle, string date, float time)
         if (movie.get_title() == movieTitle)
         {
             Showtime newShowtime(date, time, 40);
-            // movie.showtimes.push_back(newShowtime);
+            movie.getShowTimes().push_back(newShowtime);
             break;
         }
     }
@@ -121,22 +121,4 @@ void Admin::deleteShowTime(string movieTitle, string date, float time)
             }
         }
     }
-}
-
-int main()
-{
-    Admin admin;
-    Admin admin2;
-    if (admin2.Authenticate("admin", "admin123"))
-    {
-        cout << "Admin authenticated successfully." << endl;
-    }
-    else
-    {
-        cout << "Authentication failed." << endl;
-    }
-    admin.viewAllMovies();
-    Movie m("ex.title","ex.desc","ex.genre",5,2.00);
-    admin.AddMovie(m);
-    admin.viewAllMovies();
 }
