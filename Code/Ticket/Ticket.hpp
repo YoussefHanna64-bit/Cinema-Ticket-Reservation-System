@@ -13,4 +13,9 @@ private:
 
 public:
     Ticket(std::string movieTitle, std::string date, float time, float price, std::vector<int> seats);
+    ///////////////////////////////////////
+    float getrice()
+    {
+        return price;
+    }
 };
