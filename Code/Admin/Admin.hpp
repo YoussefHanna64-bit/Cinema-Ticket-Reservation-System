@@ -11,7 +11,6 @@ public:
     void modifyMovieRating(string movieTitle, float newRating);
     void modifyMovieGenre(string movieTitle, string newGenre);
     void deleteMovie(string movieTitle);
-    void viewAllMovies();
     void createShowTime(string movieTitle, string date, float time);
     void modifyShowTimeDate(string movieTitle, string oldDate, string newDate ,float time);
     void modifyShowTimeTime(string movieTitle, string date, float oldTime, float newTime);

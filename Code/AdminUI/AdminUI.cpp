@@ -3,17 +3,18 @@
 #include <array>
 #include <cstdlib>
 #include <conio.h>
+#include <limits>
 #include "../Movie/Movie.hpp"
 #include "../System/System.hpp"
+#include "../Admin/Admin.hpp"
 using namespace std;
+Admin admin;
 void AdminUI::printAdminMenu()
 {
     array<string, 8> menuItems = {"Add Movie", "Edit Movie", "Delete Movie",
                                   "List all Movies", "Create Showtime", "Edit Showtimes", "Delete Showtimes", "Exit"};
     int selected = 0;
     bool flag = true;
-
-    system("");
 
     while (flag)
     {
@@ -114,10 +115,8 @@ void AdminUI::addMovie()
     cin >> rating;
     cout << "\033[5;0H" << "Duration: ";
     cin >> duration;
-    cin.get();
-
     Movie movie(title, description, genre, rating, duration);
-    System::movies.push_back(movie);
+    admin.AddMovie(movie);
 }
 void AdminUI::editMovie()
 {
@@ -185,9 +184,9 @@ void AdminUI::editMovie()
                 }
                 case 27: // ESC - save and exit
                 {
-                    movie.set_desc(newDesc);
-                    movie.set_genre(newGenre);
-                    movie.set_rating(newRating);
+                    admin.modifyMovieDesc(movie.get_title(), newDesc);
+                    admin.modifyMovieGenre(movie.get_title(), newGenre);
+                    admin.modifyMovieRating(movie.get_title(), newRating);
 
                     system("cls");
                     cout << "\033[32mMovie Updated Successfully!\033[0m" << endl;
@@ -208,17 +207,7 @@ void AdminUI::deleteMovie()
     cout << "-----------------" << endl;
     cout << "\033[3;0H" << "Enter Movie Name: ";
     getline(cin, title);
-
-    for (auto it = System::movies.begin(); it != System::movies.end(); ++it)
-    {
-        if (it->get_title() == title)
-        {
-            System::movies.erase(it);
-            cout << "\033[32mMovie Deleted Successfully!\033[0m" << endl;
-            return;
-        }
-    }
-    cout << "Movie not found!" << endl;
+    admin.deleteMovie(title);
 }
 void AdminUI::displayAllMovies()
 {

@@ -3,6 +3,7 @@
 void Admin::AddMovie(Movie &movie)
 {
     System::movies.push_back(movie);
+    cout << "Movie Added Successfully!" << endl;
 }
 void Admin::modifyMovieDesc(string movieTitle, string newDesc)
 {
@@ -44,21 +45,13 @@ void Admin::deleteMovie(string movieTitle)
         if (it->get_title() == movieTitle)
         {
             System::movies.erase(it);
-            break;
+            cout << "Movie deleted successfully!" << endl;
+            return;
         }
     }
+    cout << "Movie not found!" << endl;
 }
-void Admin::viewAllMovies()
-{
-    for (auto &movie : System::movies)
-    {
-        cout << "Title: " << movie.get_title() << endl;
-        cout << "Description: " << movie.get_desc() << endl;
-        cout << "Genre: " << movie.get_genre() << endl;
-        cout << "Rating: " << movie.get_rating() << endl;
-        cout << "------------------------" << endl;
-    }
-}
+
 void Admin::createShowTime(string movieTitle, string date, float time)
 {
     for (auto &movie : System::movies)
@@ -77,7 +70,7 @@ void Admin::modifyShowTimeDate(string movieTitle, string oldDate, string newDate
     {
         if (movie.get_title() == movieTitle)
         {
-            for(auto &showtime : movie.getShowTimes())
+            for (auto &showtime : movie.getShowTimes())
             {
                 if (showtime.getDate() == oldDate && showtime.getTime() == time)
                 {
@@ -94,7 +87,7 @@ void Admin::modifyShowTimeTime(string movieTitle, string date, float oldTime, fl
     {
         if (movie.get_title() == movieTitle)
         {
-            for(auto &showtime : movie.getShowTimes())
+            for (auto &showtime : movie.getShowTimes())
             {
                 if (showtime.getDate() == date && showtime.getTime() == oldTime)
                 {
@@ -111,7 +104,7 @@ void Admin::deleteShowTime(string movieTitle, string date, float time)
     {
         if (movie.get_title() == movieTitle)
         {
-            for(auto it = movie.getShowTimes().begin(); it != movie.getShowTimes().end(); ++it)
+            for (auto it = movie.getShowTimes().begin(); it != movie.getShowTimes().end(); ++it)
             {
                 if (it->getDate() == date && it->getTime() == time)
                 {
