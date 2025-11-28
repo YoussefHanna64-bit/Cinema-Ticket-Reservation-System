@@ -1,10 +1,12 @@
 #include "Movie/Movie.hpp"
 #include "UI/UI.hpp"
+#include "AdminUI/AdminUI.hpp"
+#include "UserUI/UserUI.hpp"
 #include "ShowTime/ShowTime.hpp"
 
 int main()
-{
-    login();
+{   UI ui; 
+    ui.login();
     /*Showtime showtime("2020-01-01", 10.00, 100);
     showtime.reserveSeat(6);
     showtime.reserveSeat(5);
@@ -25,5 +27,8 @@ int main()
     code/Ticket/*.cpp ^
     code/Payment/*.cpp ^
     code/System/*.cpp ^
-    -o app.exe*/
+    code/AdminUI/*.cpp ^
+    code/UserUI/*.cpp ^
+    -o app.exe
+    */
 }

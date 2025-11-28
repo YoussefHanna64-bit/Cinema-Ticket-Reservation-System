@@ -1,7 +1,7 @@
 #include "UI.hpp"
+#include "../UserUI/UserUI.hpp"
+#include "../AdminUI/AdminUI.hpp"
 #include<iostream>
-#include<UserUI.hpp>
-#include<AdminUI.hpp>
 #include <cstdlib>
 #include <conio.h>
 using namespace std;
@@ -41,7 +41,8 @@ void UI::login()
         cout << "\033[32m" << "Login successful!" << "\033[0m" << endl;
         cout << "Press any key to continue..." << endl;
         _getch();
-        AdminUI::printAdminMenu();
+        AdminUI adminUI;
+        adminUI.printAdminMenu();
     }
     else if (username == "user" && password == "password")
     {
@@ -49,7 +50,8 @@ void UI::login()
         cout << "\033[32m" << "Login successful!" << "\033[0m" << endl;
         cout << "Press any key to continue..." << endl;
         _getch();
-       UserUI:: printUserMenu();
+        UserUI userUI;
+       userUI.printUserMenu();
     }
     else
     {

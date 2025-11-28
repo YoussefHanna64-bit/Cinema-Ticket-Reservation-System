@@ -97,7 +97,7 @@ void AdminUI:: printAdminMenu()
         }
     }
 }
-void addMovie()
+void AdminUI:: addMovie()
 {
     string title, description, genre;
     float rating, duration;

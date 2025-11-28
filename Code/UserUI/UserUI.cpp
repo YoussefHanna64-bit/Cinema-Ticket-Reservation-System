@@ -7,7 +7,7 @@
 #include <conio.h>
 using namespace std;
 
-void printUserMenu()
+void UserUI:: printUserMenu()
 {
     array<string, 4> menuItems = {"Reserve Ticket", "Cancel Reservation", "View Reserved Tickets", "Exit"};
     int selected = 0;
@@ -87,15 +87,15 @@ void printUserMenu()
 }
 
 ///////////////////// User Functions ///////////////
-void reserveTicket()
+void UserUI::reserveTicket()
 {
     cout << "Reserve Ticket Function Called" << endl;
 }
-void cancelReservation()
+void UserUI:: cancelReservation()
 {
     cout << "Cancel Reservation Function Called" << endl;
 }
-void viewReservedTickets()
+void UserUI:: viewReservedTickets()
 {
     cout << "View Reserved Tickets Function Called" << endl;
 }

@@ -2,7 +2,7 @@
 using namespace std;
 class AdminUI{
     public:
-    static void printAdminMenu();
+    void printAdminMenu();
     void addMovie();
     void editMovie();
     void deleteMovie();
