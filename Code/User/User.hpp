@@ -27,5 +27,5 @@ public:
 
     float calculateTickets(vector<Ticket> &tickets);
 
-    Payment selectPaymentMethod();
+    Payment* selectPaymentMethod();
 };

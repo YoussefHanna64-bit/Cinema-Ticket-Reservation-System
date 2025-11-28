@@ -6,10 +6,10 @@
 #include "../Movie/Movie.hpp"
 #include "../System/System.hpp"
 using namespace std;
-void AdminUI:: printAdminMenu()
+void AdminUI::printAdminMenu()
 {
     array<string, 8> menuItems = {"Add Movie", "Edit Movie", "Delete Movie",
-         "List all Movies", "Create Showtime", "Edit Showtimes", "Delete Showtimes", "Exit"};
+                                  "List all Movies", "Create Showtime", "Edit Showtimes", "Delete Showtimes", "Exit"};
     int selected = 0;
     bool flag = true;
 
@@ -97,71 +97,151 @@ void AdminUI:: printAdminMenu()
         }
     }
 }
-void AdminUI:: addMovie()
+void AdminUI::addMovie()
 {
     string title, description, genre;
     float rating, duration;
 
     cout << "Add Movie" << endl;
     cout << "-----------------" << endl;
-    cout << "Title:                             Description:" << endl;
-    cout << "Genre:                             Rating:" << endl;
-    cout << "Duration: " << endl;
-
-    cout << "\033[3A";
-    cout << "\033[7C";
+    cout << "\033[3;0H" << "Title: ";
     getline(cin, title);
-
-    cout << "\033[1A";
-    cout << "\033[48C";
+    cout << "\033[3;" << 15 + title.length() << "H" << "Description: ";
     getline(cin, description);
-
-    cout << "\033[7C";
-    cin >> genre;
-    cin.get();
-
-    cout << "\033[1A";
-    cout << "\033[43C";
+    cout << "\033[4;0H" << "Genre: ";
+    getline(cin, genre);
+    cout << "\033[4;" << 15 + title.length() << "H" << "Rating: ";
     cin >> rating;
-    cin.get();
-
-    cout << "\033[10C";
+    cout << "\033[5;0H" << "Duration: ";
     cin >> duration;
-
     cin.get();
 
     Movie movie(title, description, genre, rating, duration);
     System::movies.push_back(movie);
 }
-void AdminUI:: editMovie()
+void AdminUI::editMovie()
 {
-    cout << "Edit Movie Function Called" << endl;
+    string title;
+    cout << "Edit Movie" << endl;
+    cout << "-----------------" << endl;
+    cout << "\033[3;0H" << "Enter Movie Name: ";
+    getline(cin, title);
+
+    for (auto &movie : System::movies)
+    {
+        if (movie.get_title() == title)
+        {
+            string newDesc = movie.get_desc();
+            string newGenre = movie.get_genre();
+            float newRating = movie.get_rating();
+
+            int selected = 0;
+            bool editing = true;
+
+            while (editing)
+            {
+                system("cls");
+                cout << "Edit Movie" << endl;
+                cout << "-----------------" << endl;
+                cout << "Title: " << movie.get_title() << endl;
+                cout << (selected == 0 ? "\033[32m> " : "  ") << "Description: " << newDesc << "\033[0m" << endl;
+                cout << (selected == 1 ? "\033[32m> " : "  ") << "Genre: " << newGenre << "\033[0m" << endl;
+                cout << (selected == 2 ? "\033[32m> " : "  ") << "Rating: " << newRating << "\033[0m" << endl;
+                cout << "\nPress ESC to save" << endl;
+
+                int key = _getch();
+
+                switch (key)
+                {
+                case 72: // UP arrow
+                    selected = (selected - 1 + 3) % 3;
+                    break;
+                case 80: // DOWN arrow
+                    selected = (selected + 1) % 3;
+                    break;
+                case 13: // ENTER - edit selected field
+                {
+                    system("cls");
+                    cout << "Edit Movie" << endl;
+                    cout << "-----------------" << endl;
+
+                    if (selected == 0)
+                    {
+                        cout << "New Description: ";
+                        getline(cin, newDesc);
+                    }
+                    else if (selected == 1)
+                    {
+                        cout << "New Genre: ";
+                        getline(cin, newGenre);
+                    }
+                    else if (selected == 2)
+                    {
+                        cout << "New Rating: ";
+                        cin >> newRating;
+                        cin.ignore();
+                    }
+                    break;
+                }
+                case 27: // ESC - save and exit
+                {
+                    movie.set_desc(newDesc);
+                    movie.set_genre(newGenre);
+                    movie.set_rating(newRating);
+
+                    system("cls");
+                    cout << "\033[32mMovie Updated Successfully!\033[0m" << endl;
+                    editing = false;
+                    break;
+                }
+                }
+            }
+            return;
+        }
+    }
+    cout << "Movie not found!" << endl;
 }
-void AdminUI:: deleteMovie()
+void AdminUI::deleteMovie()
 {
-    cout << "Delete Movie Function Called" << endl;
+    string title;
+    cout << "Delete Movie" << endl;
+    cout << "-----------------" << endl;
+    cout << "\033[3;0H" << "Enter Movie Name: ";
+    getline(cin, title);
+
+    for (auto it = System::movies.begin(); it != System::movies.end(); ++it)
+    {
+        if (it->get_title() == title)
+        {
+            System::movies.erase(it);
+            cout << "\033[32mMovie Deleted Successfully!\033[0m" << endl;
+            return;
+        }
+    }
+    cout << "Movie not found!" << endl;
 }
 void AdminUI::displayAllMovies()
 {
-    cout << "All Movies:" << endl;
+    cout << "All Movies" << endl;
+    cout << "-----------------" << endl;
     for (auto &movie : System::movies)
     {
-
-        cout << "Title: " << movie.get_title() << "                           Description: " << movie.get_desc() << endl;
-        cout << "Genre: " << movie.get_genre() << "                        Rating: " << movie.get_rating() << endl;
-        // cout << "Duration: " << movie.get_duration() << " mins " << endl;
-        cout << "----------------------------------------" << endl;
+        cout << "Title: " << movie.get_title() << endl;
+        cout << "Description: " << movie.get_desc() << endl;
+        cout << "Genre: " << movie.get_genre() << endl;
+        cout << "Rating: " << movie.get_rating() << endl;
+        cout << "-----------------" << endl;
     }
 }
 void AdminUI::createShowtime()
 {
     cout << "Create Showtime Function Called" << endl;
 }
-void AdminUI:: editShowtime()
+void AdminUI::editShowtime()
 {
     cout << "Edit Showtime Function Called" << endl;
 }
-void AdminUI:: deleteShowtime()
+void AdminUI::deleteShowtime()
 {
     cout << "Delete Showtime Function Called" << endl;
 }
