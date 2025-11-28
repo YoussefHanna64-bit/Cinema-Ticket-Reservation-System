@@ -1,5 +1,6 @@
 #include "User.hpp"
 #include <vector>
+#include <stdexcept>
 
 // Movie User::selectMovie(string movieTitle)
 // {
@@ -21,6 +22,7 @@ Showtime User::selectShowtime(Movie &movie, float time)
             return showtime;
         }
     }
+    throw runtime_error("Showtime not found");
 }
 
 vector<int> User::selectSeat(Showtime &showtime, int numberOfSeats) // numberOfSeats: store number of seats he want to reserve

@@ -3,6 +3,7 @@
 #include <sstream>
 #include <ctime>
 #include <vector>
+#include <stdexcept>
 
 vector<Movie> System::movies;
 

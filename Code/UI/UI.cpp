@@ -1,7 +1,7 @@
 #include "UI.hpp"
 #include "../UserUI/UserUI.hpp"
 #include "../AdminUI/AdminUI.hpp"
-#include<iostream>
+#include <iostream>
 #include <cstdlib>
 #include <conio.h>
 using namespace std;
@@ -13,7 +13,7 @@ void UI::login()
     cout << "Username: ";
     string username;
     cin >> username;
-    while (username != "admin")
+    while (username != "admin" && username != "user")
     {
         cout << "\033[31m" << "Invalid username. Please try again." << "\033[0m" << endl;
         cout << "Username: ";
@@ -51,7 +51,7 @@ void UI::login()
         cout << "Press any key to continue..." << endl;
         _getch();
         UserUI userUI;
-       userUI.printUserMenu();
+        userUI.printUserMenu();
     }
     else
     {
