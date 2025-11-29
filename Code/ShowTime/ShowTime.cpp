@@ -42,6 +42,7 @@ void Showtime::reserveSeat(int seat)
 {
     this->seats[seat] = false;
 }
+
 void Showtime::releaseSeat(int seat)
 {
     this->seats[seat] = true;

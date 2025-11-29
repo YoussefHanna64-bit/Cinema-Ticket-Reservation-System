@@ -59,14 +59,6 @@ void User::makeTicket(Movie &movie, Showtime &showtime, vector<int> &seats)
     tickets.push_back(newTicket);
 }
 
-void User::cancelReservation(Movie movie, Showtime showtime, vector<int> &seats)
-{
-    for (int seat : seats)
-    {
-        showtime.releaseSeat(seat);
-    }
-}
-
 void User::completeReservation(Movie &movie, Showtime &showtime, vector<int> &seats)
 {
     std::system("cls");

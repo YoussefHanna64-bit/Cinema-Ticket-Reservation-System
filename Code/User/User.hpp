@@ -1,7 +1,6 @@
 #ifndef USER_FILE
 #define USER_FILE
 
-
 #include <iostream>
 #include <ctime>
 #include "../System/System.hpp"

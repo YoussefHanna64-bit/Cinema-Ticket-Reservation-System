@@ -6,7 +6,7 @@
 #include <conio.h>
 #include <limits>
 using namespace std;
-UI* UI::login()
+UI *UI::login()
 {
     cout << "\033[38m" << "Login" << "\033[0m" << endl;
     cout << "-----------" << endl;
@@ -60,4 +60,4 @@ UI* UI::login()
     }
 }
 
-void UI::printMenu(){}
+void UI::printMenu() {}
