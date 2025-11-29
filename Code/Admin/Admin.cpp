@@ -5,113 +5,48 @@ void Admin::AddMovie(Movie &movie)
     System::movies.push_back(movie);
     cout << "Movie Added Successfully!" << endl;
 }
-void Admin::modifyMovieDesc(string movieTitle, string newDesc)
+void Admin::modifyMovie(Movie *movie, string newDesc, string newGenre, float newRating)
 {
-    for (auto &movie : System::movies)
-    {
-        if (movie.get_title() == movieTitle)
-        {
-            movie.set_desc(newDesc);
-            break;
-        }
-    }
+    movie->set_desc(newDesc);
+    movie->set_rating(newRating);
+    movie->set_genre(newGenre);
 }
-void Admin::modifyMovieRating(string movieTitle, float newRating)
-{
-    for (auto &movie : System::movies)
-    {
-        if (movie.get_title() == movieTitle)
-        {
-            movie.set_rating(newRating);
-            break;
-        }
-    }
-}
-void Admin::modifyMovieGenre(string movieTitle, string newGenre)
-{
-    for (auto &movie : System::movies)
-    {
-        if (movie.get_title() == movieTitle)
-        {
-            movie.set_genre(newGenre);
-            break;
-        }
-    }
-}
-void Admin::deleteMovie(string movieTitle)
+
+void Admin::deleteMovie(Movie *movie)
 {
     for (auto it = System::movies.begin(); it != System::movies.end(); ++it)
     {
-        if (it->get_title() == movieTitle)
+        if (it->get_title() == movie->get_title())
         {
             System::movies.erase(it);
-            cout << "Movie deleted successfully!" << endl;
-            return;
-        }
-    }
-    cout << "Movie not found!" << endl;
-}
-
-void Admin::createShowTime(string movieTitle, string date, float time)
-{
-    for (auto &movie : System::movies)
-    {
-        if (movie.get_title() == movieTitle)
-        {
-            Showtime newShowtime(date, time, 40);
-            movie.getShowTimes().push_back(newShowtime);
             break;
         }
     }
 }
-void Admin::modifyShowTimeDate(string movieTitle, string oldDate, string newDate, float time)
+
+void Admin::createShowTime(Movie* movie, string date, float time,int seats)
 {
-    for (auto &movie : System::movies)
-    {
-        if (movie.get_title() == movieTitle)
-        {
-            for (auto &showtime : movie.getShowTimes())
-            {
-                if (showtime.getDate() == oldDate && showtime.getTime() == time)
-                {
-                    showtime.setDate(newDate);
-                    break;
-                }
-            }
-        }
+            Showtime newShowtime(date, time, seats);
+            movie->getShowTimes().push_back(newShowtime);
+}
+void Admin::modifyShowTime(Movie* movie,int index, string Date, string time,string seats){
+    if(Date != "") {
+    movie->getShowTimes()[index].setDate(Date);
+    }
+    if(time != "") {
+        movie->getShowTimes()[index].setTime(stof(time));
+    }
+    if(seats != "") {
+        movie->getShowTimes()[index].setSeats(stoi(seats));
     }
 }
-void Admin::modifyShowTimeTime(string movieTitle, string date, float oldTime, float newTime)
+bool Admin::deleteShowTime(Movie* movie, string date, float time)
 {
-    for (auto &movie : System::movies)
-    {
-        if (movie.get_title() == movieTitle)
-        {
-            for (auto &showtime : movie.getShowTimes())
-            {
-                if (showtime.getDate() == date && showtime.getTime() == oldTime)
-                {
-                    showtime.setTime(newTime);
-                    break;
-                }
-            }
-        }
-    }
-}
-void Admin::deleteShowTime(string movieTitle, string date, float time)
-{
-    for (auto &movie : System::movies)
-    {
-        if (movie.get_title() == movieTitle)
-        {
-            for (auto it = movie.getShowTimes().begin(); it != movie.getShowTimes().end(); ++it)
-            {
-                if (it->getDate() == date && it->getTime() == time)
-                {
-                    movie.getShowTimes().erase(it);
-                    break;
-                }
-            }
-        }
-    }
+    for(int i=0;i<movie->getShowTimes().size();i++){
+       if(movie->getShowTimes()[i].getDate() == date && movie->getShowTimes()[i].getTime() == time){
+           movie->getShowTimes().erase(movie->getShowTimes().begin()+i);
+          return true;
+       }
+   }
+   return false;
 }
