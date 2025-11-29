@@ -4,6 +4,7 @@
 #include <iostream>
 #include <cstdlib>
 #include <conio.h>
+#include <limits>
 using namespace std;
 UI* UI::login()
 {
@@ -41,6 +42,7 @@ UI* UI::login()
         cout << "\033[32m" << "Login successful!" << "\033[0m" << endl;
         cout << "Press any key to continue..." << endl;
         _getch();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
         return new AdminUI();
     }
     else if (username == "user" && password == "password")

@@ -30,6 +30,19 @@ vector<int> User::selectSeat(Showtime &showtime, int numberOfSeats)
         cout << "Seat " << (i + 1) << ": ";
         cin >> seatNumber;
 
+        if (seatNumber < 1 || seatNumber > showtime.getSeats())
+        {
+            cout << "\033[31m" << "Seat " << seatNumber << " does not exist. Please choose a different seat." << "\033[0m" << endl;
+            i--;
+            continue;
+        }
+        else if (showtime.checkSeatAvailability(seatNumber) == false)
+        {
+            cout << "\033[31m" << "Seat " << seatNumber << " is already reserved. Please choose a different seat." << "\033[0m" << endl;
+            i--;
+            continue;
+        }
+
         seats.push_back(seatNumber);
         showtime.reserveSeat(seatNumber);
     }
@@ -43,20 +56,15 @@ void User::makeTicket(Movie &movie, Showtime &showtime, vector<int> &seats)
     float totalPrice = seats.size() * seatPrice;
 
     Ticket newTicket(movie.get_title(), showtime.getDate(), showtime.getTime(), totalPrice, seats);
-    this->tickets.push_back(newTicket);
-}
-
-void User::deleteTicket()
-{
-    if (!tickets.empty())
-    {
-        tickets.pop_back();
-    }
-    cout << "\033[31m" << "Payment cancelled! Reservation removed." << "\033[0m" << endl;
+    tickets.push_back(newTicket);
 }
 
 void User::cancelReservation(Movie movie, Showtime showtime, vector<int> &seats)
 {
+    for (int seat : seats)
+    {
+        showtime.releaseSeat(seat);
+    }
 }
 
 void User::completeReservation(Movie &movie, Showtime &showtime, vector<int> &seats)
@@ -103,7 +111,12 @@ void User::completeReservation(Movie &movie, Showtime &showtime, vector<int> &se
     }
     else
     {
-        cout << "\033[31m" << "Payment cancelled! Reservation not completed." << "\033[0m" << endl;
+        for (int seat : seats)
+        {
+            showtime.releaseSeat(seat);
+        }
+
+        cout << "\033[31m" << "Payment cancelled!" << "\033[0m" << endl;
     }
 }
 
