@@ -102,7 +102,6 @@ void AdminUI::addMovie()
 {
     string title, description, genre;
     float rating, duration;
-
     cout << "Add Movie" << endl;
     cout << "-----------------" << endl;
     cout << "\033[3;0H" << "Title: ";
@@ -117,6 +116,7 @@ void AdminUI::addMovie()
     cin >> duration;
     Movie movie(title, description, genre, rating, duration);
     admin.AddMovie(movie);
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
 }
 void AdminUI::editMovie()
 {
@@ -126,77 +126,76 @@ void AdminUI::editMovie()
     cout << "\033[3;0H" << "Enter Movie Name: ";
     getline(cin, title);
     Movie *movie = System::searchMoviebytitle(title);
-    if (!movie->get_title().empty())
+    if (movie == nullptr)
     {
-        string newDesc = movie->get_desc();
-        string newGenre = movie->get_genre();
-        float newRating = movie->get_rating();
+        cout << "Movie not found!" << endl;
+        return;
+    }
 
-        int selected = 0;
-        bool editing = true;
+    string newDesc = movie->get_desc();
+    string newGenre = movie->get_genre();
+    float newRating = movie->get_rating();
 
-        while (editing)
+    int selected = 0;
+    bool editing = true;
+
+    while (editing)
+    {
+        system("cls");
+        cout << "Edit Movie" << endl;
+        cout << "-----------------" << endl;
+        cout << "Title: " << movie->get_title() << endl;
+        cout << (selected == 0 ? "\033[32m> " : "  ") << "Description: " << newDesc << "\033[0m" << endl;
+        cout << (selected == 1 ? "\033[32m> " : "  ") << "Genre: " << newGenre << "\033[0m" << endl;
+        cout << (selected == 2 ? "\033[32m> " : "  ") << "Rating: " << newRating << "\033[0m" << endl;
+        cout << "\nPress ESC to save" << endl;
+
+        int key = _getch();
+
+        switch (key)
+        {
+        case 72: // UP arrow
+            selected = (selected - 1 + 3) % 3;
+            break;
+        case 80:
+            selected = (selected + 1) % 3;
+            break;
+        case 13:
         {
             system("cls");
             cout << "Edit Movie" << endl;
             cout << "-----------------" << endl;
-            cout << "Title: " << movie->get_title() << endl;
-            cout << (selected == 0 ? "\033[32m> " : "  ") << "Description: " << newDesc << "\033[0m" << endl;
-            cout << (selected == 1 ? "\033[32m> " : "  ") << "Genre: " << newGenre << "\033[0m" << endl;
-            cout << (selected == 2 ? "\033[32m> " : "  ") << "Rating: " << newRating << "\033[0m" << endl;
-            cout << "\nPress ESC to save" << endl;
 
-            int key = _getch();
-
-            switch (key)
+            if (selected == 0)
             {
-            case 72: // UP arrow
-                selected = (selected - 1 + 3) % 3;
-                break;
-            case 80:
-                selected = (selected + 1) % 3;
-                break;
-            case 13:
+                cout << "New Description: ";
+                getline(cin, newDesc);
+            }
+            else if (selected == 1)
             {
-                system("cls");
-                cout << "Edit Movie" << endl;
-                cout << "-----------------" << endl;
-
-                if (selected == 0)
-                {
-                    cout << "New Description: ";
-                    getline(cin, newDesc);
-                }
-                else if (selected == 1)
-                {
-                    cout << "New Genre: ";
-                    getline(cin, newGenre);
-                }
-                else if (selected == 2)
-                {
-                    cout << "New Rating: ";
-                    cin >> newRating;
-                    cin.ignore();
-                }
-                break;
+                cout << "New Genre: ";
+                getline(cin, newGenre);
             }
-            case 27:
+            else if (selected == 2)
             {
-                admin.modifyMovie(movie, newDesc, newGenre, newRating);
-
-                system("cls");
-                cout << "\033[32mMovie Updated Successfully!\033[0m" << endl;
-                editing = false;
-                break;
+                cout << "New Rating: ";
+                cin >> newRating;
+                cin.ignore();
             }
-            }
+            break;
         }
-        return;
+        case 27:
+        {
+            admin.modifyMovie(movie, newDesc, newGenre, newRating);
+
+            system("cls");
+            cout << "\033[32mMovie Updated Successfully!\033[0m" << endl;
+            editing = false;
+            break;
+        }
+        }
     }
-    else
-    {
-        cout << "Movie not found!" << endl;
-    }
+    return;
 }
 void AdminUI::deleteMovie()
 {
@@ -206,15 +205,15 @@ void AdminUI::deleteMovie()
     cout << "\033[3;0H" << "Enter Movie Name: ";
     getline(cin, title);
     Movie *movie = System::searchMoviebytitle(title);
-    if (!movie->get_title().empty())
-    {
-        admin.deleteMovie(movie);
-        cout << "Movie deleted successfully!" << endl;
-    }
-    else
+    if (movie == nullptr)
     {
         cout << "Movie not found!" << endl;
+        return;
     }
+
+    admin.deleteMovie(movie);
+    cout << "Movie deleted successfully!" << endl;
+    cout << "Movie not found!" << endl;
 }
 void AdminUI::displayAllMovies()
 {
@@ -232,92 +231,123 @@ void AdminUI::displayAllMovies()
 void AdminUI::createShowtime()
 {
     cout << "Create New Showtime" << endl;
-   cout << "-----------------" << endl;
-   cout << "\033[3;0H" << "Enter Movie Name: ";
-   cin.ignore(numeric_limits<streamsize>::max(), '\n');
-   string title;
-   getline(cin, title);
-   Movie* movie=System::searchMoviebytitle(title);
-   if(!movie->get_title().empty()){
-   cout << "\033[4;0H" << "Enter Number of Showtimes: ";
-   int numShowtimes;
-   cin >> numShowtimes;
-   system("cls");
-   for(int i=0;i<numShowtimes;i++){
-       cout << "Showtime " <<i+1<< endl;
-       cout << "-----------------" << endl;
-       cin.ignore(numeric_limits<streamsize>::max(), '\n'); 
-   cout << "\033["<<3+(5*i)<<";0H" << "Enter Date: ";
-   string date;
-   getline(cin, date);
-   cout << "\033["<<4+(5*i)<<";0H" << "Enter Time: ";
-   float time;
-   cin >> time;
-   cout << "\033["<<5+(5*i)<<";0H" << "Enter Number of seats: ";
-   int seats;
-   cin >> seats;
-   admin.createShowTime(movie, date, time, seats);
-   }
-   }
-   else{
-       cout << "Movie not found!" << endl;
-   }
+    cout << "-----------------" << endl;
+    cout << "\033[3;0H" << "Enter Movie Name: ";
+    string title;
+    getline(cin, title);
+    Movie *movie = System::searchMoviebytitle(title);
+    if (movie == nullptr)
+    {
+        cout << "Movie not found!" << endl;
+        return;
+    }
+
+    cout << "\033[4;0H" << "Enter Number of Showtimes: ";
+    int numShowtimes;
+    cin >> numShowtimes;
+    system("cls");
+    for (int i = 0; i < numShowtimes; i++)
+    {
+        cout << "Showtime " << i + 1 << endl;
+        cout << "-----------------" << endl;
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        cout << "\033[" << 3 + (5 * i) << ";0H" << "Enter Date: ";
+        string date;
+        getline(cin, date);
+        cout << "\033[" << 4 + (5 * i) << ";0H" << "Enter Time: ";
+        float time;
+        cin >> time;
+        cout << "\033[" << 5 + (5 * i) << ";0H" << "Enter Number of seats: ";
+        int seats;
+        cin >> seats;
+        Showtime showtime = Showtime(date, time, seats);
+        movie->getShowTimes().push_back(showtime);
+    }
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
 }
 void AdminUI::editShowtime()
 {
-   cout << "Edit Showtime" << endl;
-   cout << "-----------------" << endl;
-   cout << "\033[3;0H" << "Enter Movie Name: ";
-   cin.ignore(numeric_limits<streamsize>::max(), '\n'); 
-   string title;
-   getline(cin, title);
-   Movie* movie=System::searchMoviebytitle(title);
-   if(!movie->get_title().empty()){
-   system("cls");
-   for(int i=0;i<movie->getShowTimes().size();i++){
-       cout << "Showtime " <<i+1<< endl;
-       cout << "-----------------" << endl;
-   cout << "\033["<<3+(5*i)<<";0H" << "Enter Date: "<<"\033[33m"<<movie->getShowTimes()[i].getDate()<<"\033[0m";
-   cout << "\033["<<3+(5*i)<<";40H"; 
-   string Date;
-   getline(cin, Date);
-   cout << "\033["<<4+(5*i)<<";0H" << "Enter Time: "<<"\033[33m"<<movie->getShowTimes()[i].getTime()<<"\033[0m";
-   cout << "\033["<<4+(5*i)<<";40H"; 
-    string time;
-    getline(cin, time);
-   cout << "\033["<<5+(5*i)<<";0H" << "Enter Number of seats: "<<"\033[33m"<<movie->getShowTimes()[i].getSeats()<<"\033[0m";
-   cout << "\033["<<5+(5*i)<<";40H"; 
-    string seats;
-    getline(cin, seats);
-    admin.modifyShowTime(movie,i,Date,time,seats);
-   }
-   }
-   else{
-       cout << "Movie not found!" << endl;
-   }
+    cout << "Edit Showtime" << endl;
+    cout << "-----------------" << endl;
+    cout << "\033[3;0H" << "Enter Movie Name: ";
+    string title;
+    getline(cin, title);
+    Movie *movie = System::searchMoviebytitle(title);
+    if (movie == nullptr)
+    {
+        cout << "Movie not found!" << endl;
+        return;
+    }
+
+    system("cls");
+    for (int i = 0; i < movie->getShowTimes().size(); i++)
+    {
+        cout << "Showtime " << i + 1 << endl;
+        cout << "-----------------" << endl;
+        cout << "\033[" << 3 + (5 * i) << ";0H" << "Enter Date: " << "\033[33m" << movie->getShowTimes()[i].getDate() << "\033[0m";
+        cout << "\033[" << 3 + (5 * i) << ";40H";
+        string Date;
+        getline(cin, Date);
+        if (Date != "")
+        {
+            movie->getShowTimes()[i].setDate(Date);
+        }
+        cout << "\033[" << 4 + (5 * i) << ";0H" << "Enter Time: " << "\033[33m" << movie->getShowTimes()[i].getTime() << "\033[0m";
+        cout << "\033[" << 4 + (5 * i) << ";40H";
+        string timeStr;
+        getline(cin, timeStr);
+        if (timeStr != "")
+        {
+            movie->getShowTimes()[i].setTime(stof(timeStr));
+        }
+        cout << "\033[" << 5 + (5 * i) << ";0H" << "Enter Number of seats: " << "\033[33m" << movie->getShowTimes()[i].getSeats() << "\033[0m";
+        cout << "\033[" << 5 + (5 * i) << ";40H";
+        string seats;
+        getline(cin, seats);
+        if (seats != "")
+        {
+            movie->getShowTimes()[i].setSeats(stoi(seats));
+        }
+    }
 }
 void AdminUI::deleteShowtime()
-{   cout << "Edit Showtime" << endl;
-   cout << "-----------------" << endl;
-   cout << "\033[3;0H" << "Enter Movie Name: ";
-   cin.ignore(numeric_limits<streamsize>::max(), '\n'); 
-   string title;
-   getline(cin, title);
-   Movie* movie=System::searchMoviebytitle(title);
-   if(!movie->get_title().empty()){
-   cout << "\033[4;0H" << "Enter Date: ";
-   string date;
-   getline(cin, date);
-   cout << "\033[5;0H" << "Enter Time: ";
-   float time;
-   cin >> time;
-   bool found = admin.deleteShowTime(movie, date, time);
-   system("cls");
-   if(found){
-       cout << "Showtime deleted successfully!" << endl;
-   }
-   else{
-       cout << "Showtime not found!" << endl;
-   }
+{
+    cout << "Edit Showtime" << endl;
+    cout << "-----------------" << endl;
+    cout << "\033[3;0H" << "Enter Movie Name: ";
+    string title;
+    getline(cin, title);
+    Movie *movie = System::searchMoviebytitle(title);
+    if (movie == nullptr)
+    {
+        cout << "Movie not found!" << endl;
+        return;
     }
+
+    cout << "\033[4;0H" << "Enter Date: ";
+    string date;
+    getline(cin, date);
+    cout << "\033[5;0H" << "Enter Time: ";
+    float time;
+    cin >> time;
+    bool found = false;
+    system("cls");
+    for (int i = 0; i < movie->getShowTimes().size(); i++)
+    {
+        if (movie->getShowTimes()[i].getDate() == date && movie->getShowTimes()[i].getTime() == time)
+        {
+            movie->getShowTimes().erase(movie->getShowTimes().begin() + i);
+            found = true;
+            break;
+        }
+    }
+    if (found)
+    {
+        cout << "Showtime deleted successfully!" << endl;
+    }
+    else
+    {
+        cout << "Showtime not found!" << endl;
+    }
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
 }
