@@ -43,7 +43,7 @@ void User::makeTicket(Movie &movie, Showtime &showtime, vector<int> &seats)
     float totalPrice = seats.size() * seatPrice;
 
     Ticket newTicket(movie.get_title(), showtime.getDate(), showtime.getTime(), totalPrice, seats);
-    this->tickets.push_back(newTicket);
+    tickets.push_back(newTicket);
 }
 
 void User::deleteTicket()
