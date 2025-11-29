@@ -1,14 +1,14 @@
 #include "Payment.hpp"
 
+using namespace std;
 class MasterCard : public Payment
 {
 
 private:
-    std::string cardNumber;
-    int cvv;
+    string cardNumber;
+    string cvv;
 
 public:
-    MasterCard(std::string cardNumber, int cvv);
-    void makePayment()override;
-
+    MasterCard(string cardNumber, string cvv);
+    void makePayment() override;
 };

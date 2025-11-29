@@ -157,9 +157,6 @@ void UserUI::reserveTicket()
                 system("cls");
                 string movieTitle = availableMovies[selected].get_title();
                 Movie *selectedMovie = System::searchMoviebytitle(movieTitle);
-                cout << "\033[32m" << "You have selected: " << selectedMovie->get_title() << "\033[0m" << endl;
-                cout << "Press any key to continue..." << endl;
-                _getch();
                 selectShowtime(*selectedMovie, currentDate);
                 flag = false;
             }
@@ -246,10 +243,6 @@ void UserUI::selectShowtime(Movie &selectedMovie, string date)
         {
             system("cls");
             Showtime &selectedShowtime = *times[selected];
-            cout << "\033[32m" << "You have selected: " << date
-                 << " at " << selectedShowtime.getTime() << "\033[0m" << endl;
-            cout << "Press any key to continue..." << endl;
-            _getch();
             selectSeats(selectedMovie, selectedShowtime);
             flag = false;
             break;

@@ -1,7 +1,9 @@
-#include"MasterCard.hpp"
+#include "MasterCard.hpp"
 
-MasterCard::MasterCard(std::string cardNumber, int cvv)
-    :cardNumber(cardNumber), cvv(cvv) {}
+using namespace std;
+
+MasterCard::MasterCard(string cardNumber, string cvv)
+    : cardNumber(cardNumber), cvv(cvv) {}
 
 void MasterCard::makePayment()
 {

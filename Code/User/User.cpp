@@ -168,12 +168,26 @@ Payment *User::selectPaymentMethod()
                 cout << "-----------------------------" << endl;
 
                 string cardNumber;
-                int cvv;
+                string cvv;
+                do
+                {
+                    cout << "Enter Card Number: ";
+                    cin >> cardNumber;
+                    if (cardNumber.length() != 16)
+                    {
+                        cout << "\033[31m" << "Invalid card number. Please enter a 16-digit card number." << "\033[0m" << endl;
+                    }
+                } while (cardNumber.length() != 16);
 
-                cout << "Enter Card Number: ";
-                cin >> cardNumber;
-                cout << "Enter CVV: ";
-                cin >> cvv;
+                do
+                {
+                    cout << "Enter CVV: ";
+                    cin >> cvv;
+                    if (cvv.length() != 3)
+                    {
+                        cout << "\033[31m" << "Invalid CVV. Please enter a 3-digit CVV." << "\033[0m" << endl;
+                    }
+                } while (cvv.length() != 3);
 
                 return new MasterCard(cardNumber, cvv);
             }
