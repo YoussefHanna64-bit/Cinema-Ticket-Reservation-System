@@ -61,7 +61,7 @@ void User::cancelReservation(Movie movie, Showtime showtime, vector<int> &seats)
 
 void User::completeReservation(Movie &movie, Showtime &showtime, vector<int> &seats)
 {
-    system("cls");
+    std::system("cls");
     cout << "\033[38m" << "======= PAYMENT =======" << "\033[0m" << endl;
 
     float seatPrice = 250.0f;
@@ -78,7 +78,7 @@ void User::completeReservation(Movie &movie, Showtime &showtime, vector<int> &se
 
         makeTicket(movie, showtime, seats);
 
-        system("cls");
+        std::system("cls");
         cout << "\033[32m" << "======================================" << "\033[0m" << endl;
         cout << "\033[32m" << "  RESERVATION COMPLETED SUCCESSFULLY!  " << "\033[0m" << endl;
         cout << "\033[32m" << "======================================" << "\033[0m" << endl;
@@ -124,7 +124,7 @@ Payment *User::selectPaymentMethod()
     array<string, 2> menuItems = {"MasterCard", "Cancel Payment"};
     while (flag)
     {
-        system("cls");
+        std::system("cls");
         cout << "\033[38m" << "Select Payment Method" << "\033[0m" << endl;
         cout << "-----------------------------" << endl;
 
@@ -158,7 +158,7 @@ Payment *User::selectPaymentMethod()
         {
             if (selected == 0)
             {
-                system("cls");
+                std::system("cls");
                 cout << "\033[38m" << "MasterCard Payment" << "\033[0m" << endl;
                 cout << "-----------------------------" << endl;
 

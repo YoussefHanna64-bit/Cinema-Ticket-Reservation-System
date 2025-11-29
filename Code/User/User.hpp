@@ -4,10 +4,11 @@
 #include "../Movie/Movie.hpp"
 #include "../Ticket/Ticket.hpp"
 #include "../Payment/MasterCard.hpp"
+#include "../Person/Person.hpp"
 
 using namespace std;
 
-class User
+class User : public Person
 {
     vector<Ticket> tickets;
     Payment *payment;

@@ -337,5 +337,37 @@ void UserUI::cancelReservation()
 
 void UserUI::viewReservedTickets()
 {
-    cout << "View Reserved Tickets Function Called" << endl;
+    system("cls");
+    cout << "\033[38m" << "======= YOUR RESERVED TICKETS =======" << "\033[0m" << endl;
+    cout << "---------------------------------------------" << endl;
+
+    vector<Ticket> userTickets = user.getTickets();
+
+    if (userTickets.empty())
+    {
+        cout << "\033[31m" << "No tickets found." << "\033[0m" << endl;
+    }
+    else
+    {
+        for (int i = 0; i < userTickets.size(); i++)
+        {
+            cout << "\033[32m" << "Ticket #" << (i + 1) << "\033[0m" << endl;
+            cout << "Movie: " << userTickets[i].getMovieTitle() << endl;
+            cout << "Date: " << userTickets[i].getDate() << " | Time: " << userTickets[i].getTime() << endl;
+            cout << "Seats: ";
+            vector<int> seats = userTickets[i].getSeats();
+            for (int j = 0; j < seats.size(); j++)
+            {
+                cout << seats[j];
+                if (j < seats.size() - 1)
+                    cout << ", ";
+            }
+            cout << endl;
+            cout << "Price: $" << userTickets[i].getPrice() << endl;
+            cout << "---------------------------------------------" << endl;
+        }
+
+        float totalSpent = user.calculateTickets(userTickets);
+        cout << "\033[33m" << "Total Spent: $" << totalSpent << "\033[0m" << endl;
+    }
 }
