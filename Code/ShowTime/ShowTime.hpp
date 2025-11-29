@@ -23,5 +23,6 @@ public:
     void reserveSeat(int seat);
     void releaseSeat(int seat);
     bool checkSeatAvailability(int seat);
+    bool hasAvailableSeats();
 };
 #endif

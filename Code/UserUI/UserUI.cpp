@@ -277,6 +277,12 @@ void UserUI::selectSeats(Movie &selectedMovie, Showtime &selectedShowtime)
     cout << "\033[25;0H";
     cout << "-----------------------------------------------------------" << endl;
 
+    if (!selectedShowtime.hasAvailableSeats())
+    {
+        cout << "\033[31m" << "No seats available for this movie on " << selectedShowtime.getDate() << " at " << selectedShowtime.getTime() << "." << "\033[0m" << endl;
+        return;
+    }
+
     int numberOfSeats;
 
     do
@@ -289,6 +295,7 @@ void UserUI::selectSeats(Movie &selectedMovie, Showtime &selectedShowtime)
             cout << "\033[31m" << "Invalid number of seats!" << "\033[0m" << endl;
         }
     } while (numberOfSeats <= 0 || numberOfSeats > selectedShowtime.getSeats());
+
     vector<int> selectedSeats = user->selectSeat(selectedShowtime, numberOfSeats);
 
     float seatPrice = 250.0f;

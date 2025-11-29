@@ -55,6 +55,17 @@ bool Showtime::checkSeatAvailability(int seat)
     }
     return false;
 }
+bool Showtime::hasAvailableSeats()
+{
+    for (auto &seat : seats)
+    {
+        if (seat.second == true)
+        {
+            return true;
+        }
+    }
+    return false;
+}
 void Showtime::displaySeats(int row, int col)
 {
     map<int, bool>::iterator it;
