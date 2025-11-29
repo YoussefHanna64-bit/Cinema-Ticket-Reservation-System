@@ -249,8 +249,7 @@ void AdminUI::createShowtime()
    cout << "\033["<<5+(5*i)<<";0H" << "Enter Number of seats: ";
    int seats;
    cin >> seats;
-   Showtime showtime=Showtime(date, time,seats);
-   movie->getShowTimes().push_back(showtime);
+   admin.createShowTime(movie, date, time, seats);
    }
    }
    else{
@@ -275,23 +274,15 @@ void AdminUI::editShowtime()
    cout << "\033["<<3+(5*i)<<";40H"; 
    string Date;
    getline(cin, Date);
-   if(Date != "") {
-    movie->getShowTimes()[i].setDate(Date);
-    }
    cout << "\033["<<4+(5*i)<<";0H" << "Enter Time: "<<"\033[33m"<<movie->getShowTimes()[i].getTime()<<"\033[0m";
    cout << "\033["<<4+(5*i)<<";40H"; 
-    string timeStr;
-    getline(cin, timeStr);
-    if(timeStr != "") {
-        movie->getShowTimes()[i].setTime(stof(timeStr));
-    }
+    string time;
+    getline(cin, time);
    cout << "\033["<<5+(5*i)<<";0H" << "Enter Number of seats: "<<"\033[33m"<<movie->getShowTimes()[i].getSeats()<<"\033[0m";
    cout << "\033["<<5+(5*i)<<";40H"; 
     string seats;
     getline(cin, seats);
-    if(seats != "") {
-        movie->getShowTimes()[i].setSeats(stoi(seats));
-    }
+    admin.modifyShowTime(movie,i,Date,time,seats);
    }
    }
    else{
@@ -313,15 +304,8 @@ void AdminUI::deleteShowtime()
    cout << "\033[5;0H" << "Enter Time: ";
    float time;
    cin >> time;
-   bool found = false;
+   bool found = admin.deleteShowTime(movie, date, time);
    system("cls");
-   for(int i=0;i<movie->getShowTimes().size();i++){
-       if(movie->getShowTimes()[i].getDate() == date && movie->getShowTimes()[i].getTime() == time){
-           movie->getShowTimes().erase(movie->getShowTimes().begin()+i);
-           found=true;
-           break;
-       }
-   }
    if(found){
        cout << "Showtime deleted successfully!" << endl;
    }

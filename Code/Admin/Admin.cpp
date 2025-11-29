@@ -52,66 +52,29 @@ void Admin::deleteMovie(string movieTitle)
     cout << "Movie not found!" << endl;
 }
 
-void Admin::createShowTime(string movieTitle, string date, float time)
+void Admin::createShowTime(Movie* movie, string date, float time,int seats)
 {
-    for (auto &movie : System::movies)
-    {
-        if (movie.get_title() == movieTitle)
-        {
-            Showtime newShowtime(date, time, 40);
-            movie.getShowTimes().push_back(newShowtime);
-            break;
-        }
+            Showtime newShowtime(date, time, seats);
+            movie->getShowTimes().push_back(newShowtime);
+}
+void Admin::modifyShowTime(Movie* movie,int index, string Date, string time,string seats){
+    if(Date != "") {
+    movie->getShowTimes()[index].setDate(Date);
+    }
+    if(time != "") {
+        movie->getShowTimes()[index].setTime(stof(time));
+    }
+    if(seats != "") {
+        movie->getShowTimes()[index].setSeats(stoi(seats));
     }
 }
-void Admin::modifyShowTimeDate(string movieTitle, string oldDate, string newDate, float time)
+bool Admin::deleteShowTime(Movie* movie, string date, float time)
 {
-    for (auto &movie : System::movies)
-    {
-        if (movie.get_title() == movieTitle)
-        {
-            for (auto &showtime : movie.getShowTimes())
-            {
-                if (showtime.getDate() == oldDate && showtime.getTime() == time)
-                {
-                    showtime.setDate(newDate);
-                    break;
-                }
-            }
-        }
-    }
-}
-void Admin::modifyShowTimeTime(string movieTitle, string date, float oldTime, float newTime)
-{
-    for (auto &movie : System::movies)
-    {
-        if (movie.get_title() == movieTitle)
-        {
-            for (auto &showtime : movie.getShowTimes())
-            {
-                if (showtime.getDate() == date && showtime.getTime() == oldTime)
-                {
-                    showtime.setTime(newTime);
-                    break;
-                }
-            }
-        }
-    }
-}
-void Admin::deleteShowTime(string movieTitle, string date, float time)
-{
-    for (auto &movie : System::movies)
-    {
-        if (movie.get_title() == movieTitle)
-        {
-            for (auto it = movie.getShowTimes().begin(); it != movie.getShowTimes().end(); ++it)
-            {
-                if (it->getDate() == date && it->getTime() == time)
-                {
-                    movie.getShowTimes().erase(it);
-                    break;
-                }
-            }
-        }
-    }
+    for(int i=0;i<movie->getShowTimes().size();i++){
+       if(movie->getShowTimes()[i].getDate() == date && movie->getShowTimes()[i].getTime() == time){
+           movie->getShowTimes().erase(movie->getShowTimes().begin()+i);
+          return true;
+       }
+   }
+   return false;
 }
