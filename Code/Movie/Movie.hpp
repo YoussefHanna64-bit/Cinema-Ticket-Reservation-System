@@ -1,7 +1,8 @@
+#ifndef MOVIE_HPP
+#define MOVIE_HPP
 #include <iostream>
 #include <vector>
 #include "../ShowTime/ShowTime.hpp"
-using namespace std;
 
 class Movie
 {
@@ -24,5 +25,7 @@ public:
     string get_desc();
     string get_genre();
     float get_rating();
+    bool isAvailableOn(string date);
     vector<Showtime> &getShowTimes();
 };
+#endif

@@ -1,21 +1,24 @@
 #include <iostream>
 #include <ctime>
+#include "../System/System.hpp"
 #include "../Movie/Movie.hpp"
-#include"../Ticket/Ticket.hpp"
-#include"../Payment/MasterCard.hpp"    
+#include "../Ticket/Ticket.hpp"
+#include "../Payment/MasterCard.hpp"
+#include "../Person/Person.hpp"
 
 using namespace std;
 
-class User
+class User : public Person
 {
-    Ticket ticket;
-    Payment* payment;
+    vector<Ticket> tickets;
+    Payment *payment;
+
 public:
-    Movie &selectMovie(string date);
+    Movie selectMovie(string movieTitle);
 
-    Showtime &selectShowtime(Movie &movie);
+    Showtime selectShowtime(Movie &movie, float time);
 
-    vector<int> selectSeat(Showtime &showtime);
+    vector<int> selectSeat(Showtime &showtime, int numberOfSeats);
 
     void makeTicket(Movie &movie, Showtime &showtime, vector<int> &seats);
 
@@ -23,9 +26,11 @@ public:
 
     void cancelReservation(Movie movie, Showtime showtime, vector<int> &seats);
 
-    void completeReservation();
+    void completeReservation(Movie &movie, Showtime &showtime, vector<int> &seats);
 
     float calculateTickets(vector<Ticket> &tickets);
 
-    Payment selectPaymentMethod();
+    Payment *selectPaymentMethod();
+
+    vector<Ticket> getTickets();
 };
