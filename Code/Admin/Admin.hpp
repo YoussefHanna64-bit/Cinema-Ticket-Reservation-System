@@ -1,3 +1,6 @@
+#ifndef ADMIN_FILE
+#define ADMIN_FILE
+
 #include <iostream>
 #include "../Person/Person.hpp"
 
@@ -13,3 +16,5 @@ public:
     void modifyShowTime(Movie *movie, int index, string Date, string time, string seats);
     bool deleteShowTime(Movie *movie, string date, float time);
 };
+
+#endif

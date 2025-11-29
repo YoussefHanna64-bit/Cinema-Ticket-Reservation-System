@@ -1,11 +1,19 @@
 #include "../Movie/Movie.hpp"
-class UserUI
+#include"../UI/UI.hpp"
+#include "../User/User.hpp"
+
+class UserUI : public UI
 {
+
+private:
+    User* user;
+
 public:
-    void printUserMenu();
+    UserUI();
+    void printMenu() override;
     void reserveTicket();
-    void selectShowtime(Movie& selectedMovie, string date);
-    void selectSeats(Movie& selectedMovie, Showtime &selectedShowtime);
+    void selectShowtime(Movie &selectedMovie, string date);
+    void selectSeats(Movie &selectedMovie, Showtime &selectedShowtime);
     void cancelReservation();
     void viewReservedTickets();
 };

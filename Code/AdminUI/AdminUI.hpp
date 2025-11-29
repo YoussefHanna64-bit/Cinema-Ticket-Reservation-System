@@ -1,9 +1,17 @@
 #include <iostream>
+#include "../UI/UI.hpp"
+#include "../Admin/Admin.hpp"
+
 using namespace std;
-class AdminUI
+
+class AdminUI : public UI
 {
+private:
+    Admin* admin;
+
 public:
-    void printAdminMenu();
+    AdminUI();
+    void printMenu() override;
     void addMovie();
     void editMovie();
     void deleteMovie();

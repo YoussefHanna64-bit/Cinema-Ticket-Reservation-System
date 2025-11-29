@@ -1,15 +1,16 @@
 #include "UserUI.hpp"
 #include "../Movie/Movie.hpp"
 #include "../System/System.hpp"
-#include "../User/User.hpp"
 #include <iostream>
 #include <array>
 #include <cstdlib>
 #include <conio.h>
 
 using namespace std;
-User user;
-void UserUI::printUserMenu()
+
+UserUI::UserUI(){user = new User();}
+
+void UserUI::printMenu()
 {
     array<string, 4> menuItems = {"Reserve Ticket", "Cancel Reservation", "View Reserved Tickets", "Exit"};
     int selected = 0;
@@ -291,7 +292,7 @@ void UserUI::selectSeats(Movie &selectedMovie, Showtime &selectedShowtime)
     } while (numberOfSeats <= 0);
 
     // Select seats
-    vector<int> selectedSeats = user.selectSeat(selectedShowtime, numberOfSeats);
+    vector<int> selectedSeats = user->selectSeat(selectedShowtime, numberOfSeats);
 
     // Calculate total price
     float seatPrice = 250.0f;
@@ -322,7 +323,7 @@ void UserUI::selectSeats(Movie &selectedMovie, Showtime &selectedShowtime)
 
     if (key == 13)
     {
-        user.completeReservation(selectedMovie, selectedShowtime, selectedSeats);
+        user->completeReservation(selectedMovie, selectedShowtime, selectedSeats);
     }
     else if (key == 27)
     {
@@ -341,7 +342,7 @@ void UserUI::viewReservedTickets()
     cout << "\033[38m" << "======= YOUR RESERVED TICKETS =======" << "\033[0m" << endl;
     cout << "---------------------------------------------" << endl;
 
-    vector<Ticket> userTickets = user.getTickets();
+    vector<Ticket> userTickets = user->getTickets();
 
     if (userTickets.empty())
     {
@@ -367,7 +368,7 @@ void UserUI::viewReservedTickets()
             cout << "---------------------------------------------" << endl;
         }
 
-        float totalSpent = user.calculateTickets(userTickets);
+        float totalSpent = user->calculateTickets(userTickets);
         cout << "\033[33m" << "Total Spent: $" << totalSpent << "\033[0m" << endl;
     }
 }

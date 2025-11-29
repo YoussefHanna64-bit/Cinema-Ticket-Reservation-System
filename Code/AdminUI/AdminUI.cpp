@@ -8,8 +8,10 @@
 #include "../System/System.hpp"
 #include "../Admin/Admin.hpp"
 using namespace std;
-Admin admin;
-void AdminUI::printAdminMenu()
+
+AdminUI::AdminUI(){admin = new Admin();}
+
+void AdminUI::printMenu()
 {
     array<string, 8> menuItems = {"Add Movie", "Edit Movie", "Delete Movie",
                                   "List all Movies", "Create Showtime", "Edit Showtimes", "Delete Showtimes", "Exit"};
@@ -116,7 +118,7 @@ void AdminUI::addMovie()
     cout << "\033[5;0H" << "Duration: ";
     cin >> duration;
     Movie movie(title, description, genre, rating, duration);
-    admin.AddMovie(movie);
+    admin->AddMovie(movie);
 }
 void AdminUI::editMovie()
 {
@@ -182,7 +184,7 @@ void AdminUI::editMovie()
             }
             case 27:
             {
-                admin.modifyMovie(movie, newDesc, newGenre, newRating);
+                admin->modifyMovie(movie, newDesc, newGenre, newRating);
 
                 system("cls");
                 cout << "\033[32mMovie Updated Successfully!\033[0m" << endl;
@@ -208,7 +210,7 @@ void AdminUI::deleteMovie()
     Movie *movie = System::searchMoviebytitle(title);
     if (!movie->get_title().empty())
     {
-        admin.deleteMovie(movie);
+        admin->deleteMovie(movie);
         cout << "Movie deleted successfully!" << endl;
     }
     else
@@ -256,7 +258,7 @@ void AdminUI::createShowtime()
    cout << "\033["<<5+(5*i)<<";0H" << "Enter Number of seats: ";
    int seats;
    cin >> seats;
-   admin.createShowTime(movie, date, time, seats);
+   admin->createShowTime(movie, date, time, seats);
    }
    }
    else{
@@ -289,7 +291,7 @@ void AdminUI::editShowtime()
    cout << "\033["<<5+(5*i)<<";40H"; 
     string seats;
     getline(cin, seats);
-    admin.modifyShowTime(movie,i,Date,time,seats);
+    admin->modifyShowTime(movie,i,Date,time,seats);
    }
    }
    else{
@@ -311,7 +313,7 @@ void AdminUI::deleteShowtime()
    cout << "\033[5;0H" << "Enter Time: ";
    float time;
    cin >> time;
-   bool found = admin.deleteShowTime(movie, date, time);
+   bool found = admin->deleteShowTime(movie, date, time);
    system("cls");
    if(found){
        cout << "Showtime deleted successfully!" << endl;

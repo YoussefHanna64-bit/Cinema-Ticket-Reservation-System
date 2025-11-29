@@ -11,8 +11,12 @@ void initializeMovies();
 int main()
 {
     initializeMovies();
+
     UI ui;
-    ui.login();
+    UI* client;
+    client =  ui.login();
+    if(client) client->printMenu();
+
     /*Showtime showtime("2020-01-01", 10.00, 100);
     showtime.reserveSeat(6);
     showtime.reserveSeat(5);

@@ -5,7 +5,7 @@
 #include <cstdlib>
 #include <conio.h>
 using namespace std;
-void UI::login()
+UI* UI::login()
 {
     cout << "\033[38m" << "Login" << "\033[0m" << endl;
     cout << "-----------" << endl;
@@ -41,8 +41,7 @@ void UI::login()
         cout << "\033[32m" << "Login successful!" << "\033[0m" << endl;
         cout << "Press any key to continue..." << endl;
         _getch();
-        AdminUI adminUI;
-        adminUI.printAdminMenu();
+        return new AdminUI();
     }
     else if (username == "user" && password == "password")
     {
@@ -50,11 +49,13 @@ void UI::login()
         cout << "\033[32m" << "Login successful!" << "\033[0m" << endl;
         cout << "Press any key to continue..." << endl;
         _getch();
-        UserUI userUI;
-        userUI.printUserMenu();
+        return new UserUI();
     }
     else
     {
         cout << "\033[31m" << "Login failed! Invalid username or password." << "\033[0m" << endl;
+        return nullptr;
     }
 }
+
+void UI::printMenu(){}
