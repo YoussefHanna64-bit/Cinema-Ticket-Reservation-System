@@ -155,11 +155,12 @@ void UserUI::reserveTicket()
             if (!availableMovies.empty())
             {
                 system("cls");
-                Movie selectedMovie = availableMovies[selected];
-                cout << "\033[32m" << "You have selected: " << selectedMovie.get_title() << "\033[0m" << endl;
+                string movieTitle = availableMovies[selected].get_title();
+                Movie *selectedMovie = System::searchMoviebytitle(movieTitle);
+                cout << "\033[32m" << "You have selected: " << selectedMovie->get_title() << "\033[0m" << endl;
                 cout << "Press any key to continue..." << endl;
                 _getch();
-                selectShowtime(selectedMovie, currentDate);
+                selectShowtime(*selectedMovie, currentDate);
                 flag = false;
             }
             break;
@@ -183,20 +184,10 @@ void UserUI::reserveTicket()
     }
 }
 
-void UserUI::selectShowtime(Movie selectedMovie, string date)
+void UserUI::selectShowtime(Movie &selectedMovie, string date)
 {
     int selected = 0;
     bool flag = true;
-    vector<Showtime> showtimes = selectedMovie.getShowTimes();
-    vector<Showtime> times;
-
-    for (auto &showtime : showtimes)
-    {
-        if (showtime.getDate() == date)
-        {
-            times.push_back(showtime);
-        }
-    }
 
     while (flag)
     {
@@ -208,11 +199,20 @@ void UserUI::selectShowtime(Movie selectedMovie, string date)
         cout << "\033[33m" << "Press ESC to go back" << "\033[0m" << endl;
         cout << "-----------------------------------------------------------" << endl;
 
+        vector<Showtime> &showtimes = selectedMovie.getShowTimes();
+        vector<Showtime *> times;
+
+        for (auto &showtime : showtimes)
+        {
+            if (showtime.getDate() == date)
+            {
+                times.push_back(&showtime);
+            }
+        }
+
         if (times.empty())
         {
             cout << "\033[31m" << "No showtimes available for this movie on " << date << "." << "\033[0m" << endl;
-            cout << "Press any key to go back." << endl;
-            _getch();
             return;
         }
 
@@ -220,11 +220,11 @@ void UserUI::selectShowtime(Movie selectedMovie, string date)
         {
             if (i == selected)
             {
-                cout << "\033[32m" << "> Time: " << times[i].getTime() << "\033[0m" << endl;
+                cout << "\033[32m" << "> Time: " << times[i]->getTime() << "\033[0m" << endl;
             }
             else
             {
-                cout << "  Time: " << times[i].getTime() << endl;
+                cout << "  Time: " << times[i]->getTime() << endl;
             }
         }
 
@@ -245,12 +245,12 @@ void UserUI::selectShowtime(Movie selectedMovie, string date)
         case 13:
         {
             system("cls");
-            Showtime selectedShowtime = times[selected];
+            Showtime &selectedShowtime = *times[selected];
             cout << "\033[32m" << "You have selected: " << date
                  << " at " << selectedShowtime.getTime() << "\033[0m" << endl;
             cout << "Press any key to continue..." << endl;
             _getch();
-            selectedShowtime.displaySeats(10, 10);
+            selectSeats(selectedMovie, selectedShowtime);
             flag = false;
             break;
         }
@@ -262,11 +262,79 @@ void UserUI::selectShowtime(Movie selectedMovie, string date)
         }
     }
 }
+void UserUI::selectSeats(Movie &selectedMovie, Showtime &selectedShowtime)
+{
+    system("cls");
+
+    cout << "\033[38m" << "Seat Selection for " << selectedMovie.get_title() << "\033[0m" << endl;
+    cout << "Date: " << selectedShowtime.getDate() << " | Time: " << selectedShowtime.getTime() << endl;
+    cout << "-----------------------------------------------------------" << endl;
+    cout << "\033[32mGreen\033[0m = Available | \033[31mRed\033[0m = Reserved" << endl;
+    cout << "-----------------------------------------------------------" << endl;
+
+    selectedShowtime.displaySeats(10, 10);
+
+    cout << "\033[30;0H";
+    cout << "-----------------------------------------------------------" << endl;
+
+    int numberOfSeats;
+
+    do
+    {
+        cout << "How many seats do you want to reserve? ";
+        cin >> numberOfSeats;
+
+        if (numberOfSeats <= 0)
+        {
+            cout << "\033[31m" << "Invalid number of seats!" << "\033[0m" << endl;
+        }
+    } while (numberOfSeats <= 0);
+
+    // Select seats
+    vector<int> selectedSeats = user.selectSeat(selectedShowtime, numberOfSeats);
+
+    // Calculate total price
+    float seatPrice = 250.0f;
+    float totalPrice = numberOfSeats * seatPrice;
+
+    system("cls");
+    cout << "\033[38m" << "======= RESERVATION SUMMARY =======" << "\033[0m" << endl;
+    cout << "---------------------------------------------" << endl;
+    cout << "Movie: " << selectedMovie.get_title() << endl;
+    cout << "Date: " << selectedShowtime.getDate() << " | Time: " << selectedShowtime.getTime() << endl;
+    cout << "Seats: ";
+    for (int i = 0; i < selectedSeats.size(); i++)
+    {
+        cout << selectedSeats[i];
+        if (i < selectedSeats.size() - 1)
+            cout << ", ";
+    }
+    cout << endl;
+
+    cout << "Price per seat: $" << seatPrice << endl;
+    cout << "------------------------------------------" << endl;
+    cout << "\033[32m" << "Total Amount: $" << totalPrice << "\033[0m" << endl;
+    cout << "---------------------------------------------" << endl;
+
+    cout << "Press ENTER to proceed to payment or ESC to cancel..." << endl;
+
+    int key = _getch();
+
+    if (key == 13)
+    {
+        user.completeReservation(selectedMovie, selectedShowtime, selectedSeats);
+    }
+    else if (key == 27)
+    {
+        cout << "\033[31m" << "Reservation cancelled!" << "\033[0m" << endl;
+    }
+}
 
 void UserUI::cancelReservation()
 {
     cout << "Cancel Reservation Function Called" << endl;
 }
+
 void UserUI::viewReservedTickets()
 {
     cout << "View Reserved Tickets Function Called" << endl;

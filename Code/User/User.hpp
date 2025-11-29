@@ -9,7 +9,7 @@ using namespace std;
 
 class User
 {
-    Ticket ticket;
+    vector<Ticket> tickets;
     Payment *payment;
 
 public:
@@ -25,9 +25,11 @@ public:
 
     void cancelReservation(Movie movie, Showtime showtime, vector<int> &seats);
 
-    void completeReservation();
+    void completeReservation(Movie &movie, Showtime &showtime, vector<int> &seats);
 
     float calculateTickets(vector<Ticket> &tickets);
 
-    Payment selectPaymentMethod();
+    Payment *selectPaymentMethod();
+
+    vector<Ticket> getTickets();
 };
