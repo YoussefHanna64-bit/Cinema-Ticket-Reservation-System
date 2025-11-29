@@ -1,9 +1,9 @@
 #include"ShowTime.hpp"
 
-Showtime::Showtime(string date, float time,int seats){
+Showtime::Showtime(string date, float time,int seatsCount){
     this->date = date;
     this->time = time;
-      for (int i = 1; i <= seats; i++) {
+      for (int i = 1; i <= seatsCount; i++) {
         this->seats[i] = true;
     }
 }
@@ -13,11 +13,21 @@ string Showtime::getDate(){
 float Showtime::getTime(){
     return this->time;
 }
+int Showtime::getSeats(){
+    return this->seats.size();
+}
 void Showtime::setTime(float time){
     this->time = time;
 }
 void Showtime::setDate(string date){
     this->date = date;
+}
+int Showtime::setSeats(int seats){
+    this->seats.clear();
+    for (int i = 1; i <= seats; i++) {
+        this->seats[i] = true;
+    }
+    return this->seats.size();
 }
 void Showtime::reserveSeat(int seat){
     this->seats[seat] = false;
