@@ -22,6 +22,7 @@ public:
     void displaySeats(int row, int column);
     void reserveSeat(int seat);
     void releaseSeat(int seat);
-    bool checkSeatAvailability(int seat); 
+    bool checkSeatAvailability(int seat);
+    bool hasAvailableSeats();
 };
 #endif
