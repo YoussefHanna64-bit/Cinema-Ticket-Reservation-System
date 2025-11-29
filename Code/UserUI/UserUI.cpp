@@ -7,6 +7,7 @@
 #include <cstdlib>
 #include <conio.h>
 #include <string>
+#include <iomanip>
 
 using namespace std;
 User user;
@@ -218,11 +219,11 @@ void UserUI::selectShowtime(Movie &selectedMovie, string date)
         {
             if (i == selected)
             {
-                cout << "\033[32m" << "> Time: " << times[i]->getTime() << "\033[0m" << endl;
+                cout << fixed << setprecision(2) << "\033[32m" << "> Time: " << times[i]->getTime() << "\033[0m" << endl;
             }
             else
             {
-                cout << "  Time: " << times[i]->getTime() << endl;
+                cout << fixed << setprecision(2) << "  Time: " << times[i]->getTime() << endl;
             }
         }
 

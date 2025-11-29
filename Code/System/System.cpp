@@ -10,13 +10,13 @@ vector<Movie> System::movies;
 void initializeMovies()
 {
     Movie interstellar("Interstellar", "Don't leave me murph", "Science fiction", 10, 3.00);
-    interstellar.getShowTimes().push_back(Showtime("15/01/2025", 14.30, 100));
-    interstellar.getShowTimes().push_back(Showtime("15/01/2025", 18.00, 100));
-    interstellar.getShowTimes().push_back(Showtime("16/01/2025", 20.00, 100));
+    interstellar.getShowTimes().push_back(Showtime("15/01/2025", 14.30, 90));
+    interstellar.getShowTimes().push_back(Showtime("15/01/2025", 18.00, 90));
+    interstellar.getShowTimes().push_back(Showtime("16/01/2025", 20.00, 90));
 
     Movie inception("Inception", "Too many dreams", "Science fiction, crime", 9.5, 2.50);
-    inception.getShowTimes().push_back(Showtime("15/01/2025", 15.00, 100));
-    inception.getShowTimes().push_back(Showtime("16/01/2025", 19.30, 100));
+    inception.getShowTimes().push_back(Showtime("15/01/2025", 15.00, 90));
+    inception.getShowTimes().push_back(Showtime("16/01/2025", 19.30, 90));
 
     System::movies.push_back(interstellar);
     System::movies.push_back(inception);
