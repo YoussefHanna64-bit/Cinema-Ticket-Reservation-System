@@ -5,51 +5,23 @@ void Admin::AddMovie(Movie &movie)
     System::movies.push_back(movie);
     cout << "Movie Added Successfully!" << endl;
 }
-void Admin::modifyMovieDesc(string movieTitle, string newDesc)
+void Admin::modifyMovie(Movie *movie, string newDesc, string newGenre, float newRating)
 {
-    for (auto &movie : System::movies)
-    {
-        if (movie.get_title() == movieTitle)
-        {
-            movie.set_desc(newDesc);
-            break;
-        }
-    }
+    movie->set_desc(newDesc);
+    movie->set_rating(newRating);
+    movie->set_genre(newGenre);
 }
-void Admin::modifyMovieRating(string movieTitle, float newRating)
-{
-    for (auto &movie : System::movies)
-    {
-        if (movie.get_title() == movieTitle)
-        {
-            movie.set_rating(newRating);
-            break;
-        }
-    }
-}
-void Admin::modifyMovieGenre(string movieTitle, string newGenre)
-{
-    for (auto &movie : System::movies)
-    {
-        if (movie.get_title() == movieTitle)
-        {
-            movie.set_genre(newGenre);
-            break;
-        }
-    }
-}
-void Admin::deleteMovie(string movieTitle)
+
+void Admin::deleteMovie(Movie *movie)
 {
     for (auto it = System::movies.begin(); it != System::movies.end(); ++it)
     {
-        if (it->get_title() == movieTitle)
+        if (it->get_title() == movie->get_title())
         {
             System::movies.erase(it);
-            cout << "Movie deleted successfully!" << endl;
-            return;
+            break;
         }
     }
-    cout << "Movie not found!" << endl;
 }
 
 void Admin::createShowTime(string movieTitle, string date, float time)
