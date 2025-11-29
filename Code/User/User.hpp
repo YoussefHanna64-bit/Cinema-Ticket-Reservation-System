@@ -1,7 +1,6 @@
 #ifndef USER_FILE
 #define USER_FILE
 
-
 #include <iostream>
 #include <ctime>
 #include "../System/System.hpp"
@@ -27,8 +26,6 @@ public:
     void makeTicket(Movie &movie, Showtime &showtime, vector<int> &seats);
 
     void deleteTicket();
-
-    void cancelReservation(Movie movie, Showtime showtime, vector<int> &seats);
 
     void completeReservation(Movie &movie, Showtime &showtime, vector<int> &seats);
 

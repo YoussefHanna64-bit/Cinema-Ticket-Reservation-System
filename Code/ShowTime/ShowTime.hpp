@@ -21,7 +21,6 @@ public:
     void setDate(string date);
     void displaySeats(int row, int column);
     void reserveSeat(int seat);
-    void releaseSeat(int seat);           ////////////////
-    bool checkSeatAvailability(int seat); ///////////////
+    bool checkSeatAvailability(int seat);
 };
 #endif

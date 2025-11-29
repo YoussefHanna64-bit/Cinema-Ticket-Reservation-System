@@ -1,12 +1,12 @@
 #include "../Movie/Movie.hpp"
-#include"../UI/UI.hpp"
+#include "../UI/UI.hpp"
 #include "../User/User.hpp"
 
 class UserUI : public UI
 {
 
 private:
-    User* user;
+    User *user;
 
 public:
     UserUI();
