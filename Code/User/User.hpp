@@ -18,17 +18,11 @@ class User : public Person
     Payment *payment;
 
 public:
-    Movie selectMovie(string movieTitle);
-
     Showtime selectShowtime(Movie &movie, float time);
 
     vector<int> selectSeat(Showtime &showtime, int numberOfSeats);
 
     void makeTicket(Movie &movie, Showtime &showtime, vector<int> &seats);
-
-    void deleteTicket();
-
-    void cancelReservation(Movie movie, Showtime showtime, vector<int> &seats);
 
     void completeReservation(Movie &movie, Showtime &showtime, vector<int> &seats);
 

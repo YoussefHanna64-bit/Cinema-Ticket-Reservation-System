@@ -13,32 +13,23 @@ int main()
     initializeMovies();
 
     UI ui;
-    UI* client;
-    client =  ui.login();
-    if(client) client->printMenu();
+    UI *client;
+    client = ui.login();
+    if (client)
+        client->printMenu();
 
-    /*Showtime showtime("2020-01-01", 10.00, 100);
-    showtime.reserveSeat(6);
-    showtime.reserveSeat(5);
-    showtime.reserveSeat(3);
-    showtime.reserveSeat(2);
-    showtime.displaySeats(2,10);
-    int x;
-    cin >> x;
-    return 0;*/
     /* To run on vs code
-    g++ code/main.cpp ^
-    code/Movie/*.cpp ^
-    code/ShowTime/*.cpp ^
-    code/User/*.cpp ^
-    code/Admin/*.cpp ^
-    code/Person/*.cpp ^
-    code/UI/*.cpp ^
-    code/Ticket/*.cpp ^
-    code/Payment/*.cpp ^
-    code/System/*.cpp ^
-    code/AdminUI/*.cpp ^
-    code/UserUI/*.cpp ^
-    -o app.exe
+
+    g++ .\UI\UI.cpp
+    .\UserUI\UserUI.cpp
+    .\AdminUI\AdminUI.cpp
+    .\User\User.cpp .\Admin\Admin.cpp
+    .\Movie\Movie.cpp
+    .\Payment\MasterCard.cpp
+    .\Person\Person.cpp
+    .\ShowTime\ShowTime.cpp
+    .\System\System.cpp
+    .\Ticket\Ticket.cpp
+    .\main.cpp -o exe
     */
 }
