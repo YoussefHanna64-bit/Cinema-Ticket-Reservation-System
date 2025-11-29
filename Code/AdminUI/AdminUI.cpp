@@ -102,7 +102,6 @@ void AdminUI::addMovie()
 {
     string title, description, genre;
     float rating, duration;
-
     cout << "Add Movie" << endl;
     cout << "-----------------" << endl;
     cout << "\033[3;0H" << "Title: ";
@@ -117,6 +116,7 @@ void AdminUI::addMovie()
     cin >> duration;
     Movie movie(title, description, genre, rating, duration);
     admin.AddMovie(movie);
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
 }
 void AdminUI::editMovie()
 {
@@ -126,77 +126,76 @@ void AdminUI::editMovie()
     cout << "\033[3;0H" << "Enter Movie Name: ";
     getline(cin, title);
     Movie *movie = System::searchMoviebytitle(title);
-    if (!movie->get_title().empty())
+    if (movie == nullptr)
     {
-        string newDesc = movie->get_desc();
-        string newGenre = movie->get_genre();
-        float newRating = movie->get_rating();
+        cout << "Movie not found!" << endl;
+        return;
+    }
 
-        int selected = 0;
-        bool editing = true;
+    string newDesc = movie->get_desc();
+    string newGenre = movie->get_genre();
+    float newRating = movie->get_rating();
 
-        while (editing)
+    int selected = 0;
+    bool editing = true;
+
+    while (editing)
+    {
+        system("cls");
+        cout << "Edit Movie" << endl;
+        cout << "-----------------" << endl;
+        cout << "Title: " << movie->get_title() << endl;
+        cout << (selected == 0 ? "\033[32m> " : "  ") << "Description: " << newDesc << "\033[0m" << endl;
+        cout << (selected == 1 ? "\033[32m> " : "  ") << "Genre: " << newGenre << "\033[0m" << endl;
+        cout << (selected == 2 ? "\033[32m> " : "  ") << "Rating: " << newRating << "\033[0m" << endl;
+        cout << "\nPress ESC to save" << endl;
+
+        int key = _getch();
+
+        switch (key)
+        {
+        case 72: // UP arrow
+            selected = (selected - 1 + 3) % 3;
+            break;
+        case 80:
+            selected = (selected + 1) % 3;
+            break;
+        case 13:
         {
             system("cls");
             cout << "Edit Movie" << endl;
             cout << "-----------------" << endl;
-            cout << "Title: " << movie->get_title() << endl;
-            cout << (selected == 0 ? "\033[32m> " : "  ") << "Description: " << newDesc << "\033[0m" << endl;
-            cout << (selected == 1 ? "\033[32m> " : "  ") << "Genre: " << newGenre << "\033[0m" << endl;
-            cout << (selected == 2 ? "\033[32m> " : "  ") << "Rating: " << newRating << "\033[0m" << endl;
-            cout << "\nPress ESC to save" << endl;
 
-            int key = _getch();
-
-            switch (key)
+            if (selected == 0)
             {
-            case 72: // UP arrow
-                selected = (selected - 1 + 3) % 3;
-                break;
-            case 80:
-                selected = (selected + 1) % 3;
-                break;
-            case 13:
+                cout << "New Description: ";
+                getline(cin, newDesc);
+            }
+            else if (selected == 1)
             {
-                system("cls");
-                cout << "Edit Movie" << endl;
-                cout << "-----------------" << endl;
-
-                if (selected == 0)
-                {
-                    cout << "New Description: ";
-                    getline(cin, newDesc);
-                }
-                else if (selected == 1)
-                {
-                    cout << "New Genre: ";
-                    getline(cin, newGenre);
-                }
-                else if (selected == 2)
-                {
-                    cout << "New Rating: ";
-                    cin >> newRating;
-                    cin.ignore();
-                }
-                break;
+                cout << "New Genre: ";
+                getline(cin, newGenre);
             }
-            case 27:
+            else if (selected == 2)
             {
-                admin.modifyMovie(movie, newDesc, newGenre, newRating);
-
-                system("cls");
-                cout << "\033[32mMovie Updated Successfully!\033[0m" << endl;
-                editing = false;
-                break;
+                cout << "New Rating: ";
+                cin >> newRating;
+                cin.ignore();
             }
-            }
+            break;
         }
-        return;
+        case 27:
+        {
+            admin.modifyMovie(movie, newDesc, newGenre, newRating);
+
+            system("cls");
+            cout << "\033[32mMovie Updated Successfully!\033[0m" << endl;
+            editing = false;
+            break;
+        }
+        }
     }
-    else
-    {
-        cout << "Movie not found!" << endl;
-    }
+    return;
 }
 void AdminUI::deleteMovie()
 {
@@ -234,7 +233,6 @@ void AdminUI::createShowtime()
     cout << "Create New Showtime" << endl;
     cout << "-----------------" << endl;
     cout << "\033[3;0H" << "Enter Movie Name: ";
-    cin.ignore(numeric_limits<streamsize>::max(), '\n');
     string title;
     getline(cin, title);
     Movie *movie = System::searchMoviebytitle(title);
@@ -261,6 +259,7 @@ void AdminUI::createShowtime()
             Showtime showtime = Showtime(date, time, seats);
             movie->getShowTimes().push_back(showtime);
         }
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
     }
     else
     {
@@ -272,7 +271,6 @@ void AdminUI::editShowtime()
     cout << "Edit Showtime" << endl;
     cout << "-----------------" << endl;
     cout << "\033[3;0H" << "Enter Movie Name: ";
-    cin.ignore(numeric_limits<streamsize>::max(), '\n');
     string title;
     getline(cin, title);
     Movie *movie = System::searchMoviebytitle(title);
@@ -319,7 +317,6 @@ void AdminUI::deleteShowtime()
     cout << "Edit Showtime" << endl;
     cout << "-----------------" << endl;
     cout << "\033[3;0H" << "Enter Movie Name: ";
-    cin.ignore(numeric_limits<streamsize>::max(), '\n');
     string title;
     getline(cin, title);
     Movie *movie = System::searchMoviebytitle(title);
@@ -350,6 +347,7 @@ void AdminUI::deleteShowtime()
         {
             cout << "Showtime not found!" << endl;
         }
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
     }
     else
     {
