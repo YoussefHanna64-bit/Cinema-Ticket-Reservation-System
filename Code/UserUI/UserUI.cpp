@@ -6,6 +6,7 @@
 #include <array>
 #include <cstdlib>
 #include <conio.h>
+#include <string>
 
 using namespace std;
 User user;
