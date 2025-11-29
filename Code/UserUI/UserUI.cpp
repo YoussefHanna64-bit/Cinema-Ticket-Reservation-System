@@ -12,7 +12,7 @@ using namespace std;
 User user;
 void UserUI::printUserMenu()
 {
-    array<string, 4> menuItems = {"Reserve Ticket", "Cancel Reservation", "View Reserved Tickets", "Exit"};
+    array<string, 3> menuItems = {"Reserve Ticket", "View Reserved Tickets", "Exit"};
     int selected = 0;
     bool flag = true;
 
@@ -60,12 +60,9 @@ void UserUI::printUserMenu()
                 reserveTicket();
                 break;
             case 1:
-                cancelReservation();
-                break;
-            case 2:
                 viewReservedTickets();
                 break;
-            case 3:
+            case 2:
                 cout << "Cya!" << endl;
                 flag = false;
                 break;
@@ -273,9 +270,9 @@ void UserUI::selectSeats(Movie &selectedMovie, Showtime &selectedShowtime)
     cout << "\033[32mGreen\033[0m = Available | \033[31mRed\033[0m = Reserved" << endl;
     cout << "-----------------------------------------------------------" << endl;
 
-    selectedShowtime.displaySeats(10, 10);
+    selectedShowtime.displaySeats(7, 4);
 
-    cout << "\033[30;0H";
+    cout << "\033[25;0H";
     cout << "-----------------------------------------------------------" << endl;
 
     int numberOfSeats;
@@ -285,16 +282,13 @@ void UserUI::selectSeats(Movie &selectedMovie, Showtime &selectedShowtime)
         cout << "How many seats do you want to reserve? ";
         cin >> numberOfSeats;
 
-        if (numberOfSeats <= 0)
+        if (numberOfSeats <= 0 || numberOfSeats > selectedShowtime.getSeats())
         {
             cout << "\033[31m" << "Invalid number of seats!" << "\033[0m" << endl;
         }
-    } while (numberOfSeats <= 0);
-
-    // Select seats
+    } while (numberOfSeats <= 0 || numberOfSeats > selectedShowtime.getSeats());
     vector<int> selectedSeats = user.selectSeat(selectedShowtime, numberOfSeats);
 
-    // Calculate total price
     float seatPrice = 250.0f;
     float totalPrice = numberOfSeats * seatPrice;
 
@@ -327,13 +321,13 @@ void UserUI::selectSeats(Movie &selectedMovie, Showtime &selectedShowtime)
     }
     else if (key == 27)
     {
+        for (int seat : selectedSeats)
+        {
+            selectedShowtime.releaseSeat(seat);
+        }
+
         cout << "\033[31m" << "Reservation cancelled!" << "\033[0m" << endl;
     }
-}
-
-void UserUI::cancelReservation()
-{
-    cout << "Cancel Reservation Function Called" << endl;
 }
 
 void UserUI::viewReservedTickets()

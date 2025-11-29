@@ -48,7 +48,11 @@ void Showtime::releaseSeat(int seat)
 }
 bool Showtime::checkSeatAvailability(int seat)
 {
-    return this->seats[seat];
+    if (seats.find(seat) != seats.end())
+    {
+        return seats[seat];
+    }
+    return false;
 }
 void Showtime::displaySeats(int row, int col)
 {
