@@ -22,7 +22,7 @@ void initializeMovies()
     System::movies.push_back(inception);
 }
 
-Movie* System::searchMoviebytitle(string title)
+Movie *System::searchMoviebytitle(string title)
 {
     for (auto &movie : movies)
     {
