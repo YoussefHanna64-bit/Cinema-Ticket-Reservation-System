@@ -232,127 +232,92 @@ void AdminUI::displayAllMovies()
 void AdminUI::createShowtime()
 {
     cout << "Create New Showtime" << endl;
-    cout << "-----------------" << endl;
-    cout << "\033[3;0H" << "Enter Movie Name: ";
-    cin.ignore(numeric_limits<streamsize>::max(), '\n');
-    string title;
-    getline(cin, title);
-    Movie *movie = System::searchMoviebytitle(title);
-    if (!movie->get_title().empty())
-    {
-        cout << "\033[4;0H" << "Enter Number of Showtimes: ";
-        int numShowtimes;
-        cin >> numShowtimes;
-        system("cls");
-        for (int i = 0; i < numShowtimes; i++)
-        {
-            cout << "Showtime " << i + 1 << endl;
-            cout << "-----------------" << endl;
-            cin.ignore(numeric_limits<streamsize>::max(), '\n');
-            cout << "\033[" << 3 + (5 * i) << ";0H" << "Enter Date: ";
-            string date;
-            getline(cin, date);
-            cout << "\033[" << 4 + (5 * i) << ";0H" << "Enter Time: ";
-            float time;
-            cin >> time;
-            cout << "\033[" << 5 + (5 * i) << ";0H" << "Enter Number of seats: ";
-            int seats;
-            cin >> seats;
-            Showtime showtime = Showtime(date, time, seats);
-            movie->getShowTimes().push_back(showtime);
-        }
-    }
-    else
-    {
-        cout << "Movie not found!" << endl;
-    }
+   cout << "-----------------" << endl;
+   cout << "\033[3;0H" << "Enter Movie Name: ";
+   cin.ignore(numeric_limits<streamsize>::max(), '\n');
+   string title;
+   getline(cin, title);
+   Movie* movie=System::searchMoviebytitle(title);
+   if(!movie->get_title().empty()){
+   cout << "\033[4;0H" << "Enter Number of Showtimes: ";
+   int numShowtimes;
+   cin >> numShowtimes;
+   system("cls");
+   for(int i=0;i<numShowtimes;i++){
+       cout << "Showtime " <<i+1<< endl;
+       cout << "-----------------" << endl;
+       cin.ignore(numeric_limits<streamsize>::max(), '\n'); 
+   cout << "\033["<<3+(5*i)<<";0H" << "Enter Date: ";
+   string date;
+   getline(cin, date);
+   cout << "\033["<<4+(5*i)<<";0H" << "Enter Time: ";
+   float time;
+   cin >> time;
+   cout << "\033["<<5+(5*i)<<";0H" << "Enter Number of seats: ";
+   int seats;
+   cin >> seats;
+   admin.createShowTime(movie, date, time, seats);
+   }
+   }
+   else{
+       cout << "Movie not found!" << endl;
+   }
 }
 void AdminUI::editShowtime()
 {
-    cout << "Edit Showtime" << endl;
-    cout << "-----------------" << endl;
-    cout << "\033[3;0H" << "Enter Movie Name: ";
-    cin.ignore(numeric_limits<streamsize>::max(), '\n');
-    string title;
-    getline(cin, title);
-    Movie *movie = System::searchMoviebytitle(title);
-    if (!movie->get_title().empty())
-    {
-        system("cls");
-        for (int i = 0; i < movie->getShowTimes().size(); i++)
-        {
-            cout << "Showtime " << i + 1 << endl;
-            cout << "-----------------" << endl;
-            cout << "\033[" << 3 + (5 * i) << ";0H" << "Enter Date: " << "\033[33m" << movie->getShowTimes()[i].getDate() << "\033[0m";
-            cout << "\033[" << 3 + (5 * i) << ";40H";
-            string Date;
-            getline(cin, Date);
-            if (Date != "")
-            {
-                movie->getShowTimes()[i].setDate(Date);
-            }
-            cout << "\033[" << 4 + (5 * i) << ";0H" << "Enter Time: " << "\033[33m" << movie->getShowTimes()[i].getTime() << "\033[0m";
-            cout << "\033[" << 4 + (5 * i) << ";40H";
-            string timeStr;
-            getline(cin, timeStr);
-            if (timeStr != "")
-            {
-                movie->getShowTimes()[i].setTime(stof(timeStr));
-            }
-            cout << "\033[" << 5 + (5 * i) << ";0H" << "Enter Number of seats: " << "\033[33m" << movie->getShowTimes()[i].getSeats() << "\033[0m";
-            cout << "\033[" << 5 + (5 * i) << ";40H";
-            string seats;
-            getline(cin, seats);
-            if (seats != "")
-            {
-                movie->getShowTimes()[i].setSeats(stoi(seats));
-            }
-        }
-    }
-    else
-    {
-        cout << "Movie not found!" << endl;
-    }
+   cout << "Edit Showtime" << endl;
+   cout << "-----------------" << endl;
+   cout << "\033[3;0H" << "Enter Movie Name: ";
+   cin.ignore(numeric_limits<streamsize>::max(), '\n'); 
+   string title;
+   getline(cin, title);
+   Movie* movie=System::searchMoviebytitle(title);
+   if(!movie->get_title().empty()){
+   system("cls");
+   for(int i=0;i<movie->getShowTimes().size();i++){
+       cout << "Showtime " <<i+1<< endl;
+       cout << "-----------------" << endl;
+   cout << "\033["<<3+(5*i)<<";0H" << "Enter Date: "<<"\033[33m"<<movie->getShowTimes()[i].getDate()<<"\033[0m";
+   cout << "\033["<<3+(5*i)<<";40H"; 
+   string Date;
+   getline(cin, Date);
+   cout << "\033["<<4+(5*i)<<";0H" << "Enter Time: "<<"\033[33m"<<movie->getShowTimes()[i].getTime()<<"\033[0m";
+   cout << "\033["<<4+(5*i)<<";40H"; 
+    string time;
+    getline(cin, time);
+   cout << "\033["<<5+(5*i)<<";0H" << "Enter Number of seats: "<<"\033[33m"<<movie->getShowTimes()[i].getSeats()<<"\033[0m";
+   cout << "\033["<<5+(5*i)<<";40H"; 
+    string seats;
+    getline(cin, seats);
+    admin.modifyShowTime(movie,i,Date,time,seats);
+   }
+   }
+   else{
+       cout << "Movie not found!" << endl;
+   }
 }
 void AdminUI::deleteShowtime()
-{
-    cout << "Edit Showtime" << endl;
-    cout << "-----------------" << endl;
-    cout << "\033[3;0H" << "Enter Movie Name: ";
-    cin.ignore(numeric_limits<streamsize>::max(), '\n');
-    string title;
-    getline(cin, title);
-    Movie *movie = System::searchMoviebytitle(title);
-    if (!movie->get_title().empty())
-    {
-        cout << "\033[4;0H" << "Enter Date: ";
-        string date;
-        getline(cin, date);
-        cout << "\033[5;0H" << "Enter Time: ";
-        float time;
-        cin >> time;
-        bool found = false;
-        system("cls");
-        for (int i = 0; i < movie->getShowTimes().size(); i++)
-        {
-            if (movie->getShowTimes()[i].getDate() == date && movie->getShowTimes()[i].getTime() == time)
-            {
-                movie->getShowTimes().erase(movie->getShowTimes().begin() + i);
-                found = true;
-                break;
-            }
-        }
-        if (found)
-        {
-            cout << "Showtime deleted successfully!" << endl;
-        }
-        else
-        {
-            cout << "Showtime not found!" << endl;
-        }
-    }
-    else
-    {
-        cout << "Movie not found!" << endl;
+{   cout << "Edit Showtime" << endl;
+   cout << "-----------------" << endl;
+   cout << "\033[3;0H" << "Enter Movie Name: ";
+   cin.ignore(numeric_limits<streamsize>::max(), '\n'); 
+   string title;
+   getline(cin, title);
+   Movie* movie=System::searchMoviebytitle(title);
+   if(!movie->get_title().empty()){
+   cout << "\033[4;0H" << "Enter Date: ";
+   string date;
+   getline(cin, date);
+   cout << "\033[5;0H" << "Enter Time: ";
+   float time;
+   cin >> time;
+   bool found = admin.deleteShowTime(movie, date, time);
+   system("cls");
+   if(found){
+       cout << "Showtime deleted successfully!" << endl;
+   }
+   else{
+       cout << "Showtime not found!" << endl;
+   }
     }
 }
