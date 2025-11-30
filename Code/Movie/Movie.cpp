@@ -21,6 +21,10 @@ void Movie::set_rating(float rating)
 {
     this->rating = rating;
 }
+void Movie::set_duration(float duration)
+{
+    this->duration = duration;
+}
 string Movie::get_title()
 {
     return this->title;
@@ -37,7 +41,10 @@ float Movie::get_rating()
 {
     return this->rating;
 }
-
+float Movie::get_duration()
+{
+    return this->duration;
+}
 bool Movie::isAvailableOn(string date)
 {
     for (auto &showtime : showtimes)

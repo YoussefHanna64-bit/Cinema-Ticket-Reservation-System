@@ -5,11 +5,12 @@ void Admin::AddMovie(Movie &movie)
     System::movies.push_back(movie);
     cout << "Movie Added Successfully!" << endl;
 }
-void Admin::modifyMovie(Movie *movie, string newDesc, string newGenre, float newRating)
+void Admin::modifyMovie(Movie *movie, string newDesc, string newGenre, float newRating, float newDuration)
 {
     movie->set_desc(newDesc);
-    movie->set_rating(newRating);
     movie->set_genre(newGenre);
+    movie->set_rating(newRating);
+    movie->set_duration(newDuration);
 }
 
 void Admin::deleteMovie(Movie *movie)

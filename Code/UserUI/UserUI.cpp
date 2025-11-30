@@ -14,7 +14,7 @@ UserUI::UserUI() { user = new User(); }
 
 void UserUI::printMenu()
 {
-    array<string, 3> menuItems = {"Reserve Ticket", "View Reserved Tickets", "Exit"};
+    array<string, 4> menuItems = {"Reserve Ticket", "View Reserved Tickets", "Sign Out", "Exit"};
     int selected = 0;
     bool flag = true;
 
@@ -65,12 +65,21 @@ void UserUI::printMenu()
                 viewReservedTickets();
                 break;
             case 2:
+            {
+                UI ui;
+                UI *client = ui.login();
+                if (client)
+                    client->printMenu();
+                flag = false;
+                break;
+            }
+            case 3:
                 cout << "Cya!" << endl;
                 flag = false;
                 break;
             }
 
-            if (flag)
+            if (flag && selected < 2)
             {
                 cout << endl;
                 cout << "\033[32m" << "Press any key to return to menu!" << "\033[0m" << endl;
@@ -121,6 +130,7 @@ void UserUI::reserveTicket()
                     cout << "  Description: " << availableMovies[i].get_desc() << endl;
                     cout << "  Genre: " << availableMovies[i].get_genre() << endl;
                     cout << "  Rating: " << availableMovies[i].get_rating() << endl;
+                    cout << "  Duration: " << availableMovies[i].get_duration() << " hours" << endl;
                     cout << endl;
                 }
                 else

@@ -9,12 +9,12 @@
 #include "../Admin/Admin.hpp"
 using namespace std;
 
-AdminUI::AdminUI(){admin = new Admin();}
+AdminUI::AdminUI() { admin = new Admin(); }
 
 void AdminUI::printMenu()
 {
-    array<string, 8> menuItems = {"Add Movie", "Edit Movie", "Delete Movie",
-                                  "List all Movies", "Create Showtime", "Edit Showtimes", "Delete Showtimes", "Exit"};
+    array<string, 9> menuItems = {"Add Movie", "Edit Movie", "Delete Movie",
+                                  "List all Movies", "Create Showtime", "Edit Showtimes", "Delete Showtimes", "Sign Out", "Exit"};
     int selected = 0;
     bool flag = true;
 
@@ -78,12 +78,21 @@ void AdminUI::printMenu()
                 deleteShowtime();
                 break;
             case 7:
+            {
+                UI ui;
+                UI *client = ui.login();
+                if (client)
+                    client->printMenu();
+                flag = false;
+                break;
+            }
+            case 8:
                 cout << "Cya!" << endl;
                 flag = false;
                 break;
             }
 
-            if (flag)
+            if (flag && selected < 7)
             {
                 cout << endl;
                 cout << "\033[32m" << "Press any key to return to menu!" << "\033[0m" << endl;
@@ -137,6 +146,7 @@ void AdminUI::editMovie()
     string newDesc = movie->get_desc();
     string newGenre = movie->get_genre();
     float newRating = movie->get_rating();
+    float newDuration = movie->get_duration();
 
     int selected = 0;
     bool editing = true;
@@ -150,6 +160,7 @@ void AdminUI::editMovie()
         cout << (selected == 0 ? "\033[32m> " : "  ") << "Description: " << newDesc << "\033[0m" << endl;
         cout << (selected == 1 ? "\033[32m> " : "  ") << "Genre: " << newGenre << "\033[0m" << endl;
         cout << (selected == 2 ? "\033[32m> " : "  ") << "Rating: " << newRating << "\033[0m" << endl;
+        cout << (selected == 3 ? "\033[32m> " : "  ") << "Duration: " << newDuration << " hours\033[0m" << endl;
         cout << "\nPress ESC to save" << endl;
 
         int key = _getch();
@@ -157,10 +168,10 @@ void AdminUI::editMovie()
         switch (key)
         {
         case 72: // UP arrow
-            selected = (selected - 1 + 3) % 3;
+            selected = (selected - 1 + 4) % 4;
             break;
         case 80:
-            selected = (selected + 1) % 3;
+            selected = (selected + 1) % 4;
             break;
         case 13:
         {
@@ -184,11 +195,17 @@ void AdminUI::editMovie()
                 cin >> newRating;
                 cin.ignore();
             }
+            else if (selected == 3)
+            {
+                cout << "New Duration in hours: ";
+                cin >> newDuration;
+                cin.ignore();
+            }
             break;
         }
         case 27:
         {
-            admin->modifyMovie(movie, newDesc, newGenre, newRating);
+            admin->modifyMovie(movie, newDesc, newGenre, newRating, newDuration);
 
             system("cls");
             cout << "\033[32mMovie Updated Successfully!\033[0m" << endl;
@@ -227,6 +244,7 @@ void AdminUI::displayAllMovies()
         cout << "Description: " << movie.get_desc() << endl;
         cout << "Genre: " << movie.get_genre() << endl;
         cout << "Rating: " << movie.get_rating() << endl;
+        cout << "Duration: " << movie.get_duration() << " hours" << endl;
         cout << "-----------------" << endl;
     }
 }

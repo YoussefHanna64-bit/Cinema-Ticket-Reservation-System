@@ -22,10 +22,12 @@ public:
     string get_desc();
     string get_genre();
     float get_rating();
+    float get_duration();
     vector<Showtime> &getShowTimes();
     void set_desc(string desc);
     void set_genre(string genre);
     void set_rating(float rating);
+    void set_duration(float duration);
     bool isAvailableOn(string date);
 };
 #endif

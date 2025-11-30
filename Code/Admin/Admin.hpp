@@ -10,7 +10,7 @@ class Admin : public Person
 {
 public:
     void AddMovie(Movie &movie);
-    void modifyMovie(Movie *movie, string newDesc, string newGenre, float newRating);
+    void modifyMovie(Movie *movie, string newDesc, string newGenre, float newRating, float newDuration);
     void deleteMovie(Movie *movie);
     void createShowTime(Movie *movie, string date, float time, int seats);
     void modifyShowTime(Movie *movie, int index, string Date, string time, string seats);
