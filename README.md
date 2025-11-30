@@ -1,4 +1,4 @@
-# Cinema Ticket Reservation System (C++ Console Application)
+# Cinema Ticket Reservation System
 
 A simple and efficient console-based cinema booking system built with **C++**.  
 Users can browse movies, pick showtimes, choose seats, and complete reservations.  
